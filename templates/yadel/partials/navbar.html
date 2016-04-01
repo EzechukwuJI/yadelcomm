@@ -1,0 +1,38 @@
+{% load staticfiles %}
+<div class="navbar navbar-inverse navbar-fixed-top headroom bg-white" >
+  <div class="container">
+    <div class="navbar-header"> 
+      <!-- Button for smallest screens -->
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+      <a class="navbar-brand" href="{% url 'yadel_main:index' %}"><img src="" alt="Yadel comm. Logo"></a> </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav pull-right">
+        <li class="active"><a href="{% url 'yadel_main:index' %}">Home</a></li>
+        <li><a href="{% url 'yadel_main:newsroom' %}">Newsroom</a></li>
+        <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown">Services <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a href="{% url 'yadel_main:services' 'content-writing' %}">Content Writing</a></li>
+            <li><a href="{% url 'yadel_main:services' 'press-release-syndication' %}">Press Release Syndication</a></li>
+            <li><a href="{% url 'yadel_main:services' 'media-relations-consulting' %}">Media Relations Consulting</a></li>
+            <li><a href="{% url 'yadel_main:services' 'general-media-services' %}">General Media Services</a></li>
+          </ul>
+        </li>
+
+        <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown">Client <b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a href="{% url 'yadel_main:create-article' %}">Submit Publications</a></li>
+            <li><a href="{% url 'yadel_main:user-dashboard' %}">Dashboard</a></li>
+            {% if user.is_authenticated %}
+              <li><a href="{% url 'yadel_main:logout' %}">Logout</a></li>
+            {% else %}
+              <li><a href="{% url 'yadel_main:login' %}">Login/sign up</a></li>
+            {% endif %}
+          </ul>
+        </li>
+        <li><a href="{% url 'yadel_main:about_us' %}">About</a></li>
+        <li><a href="{% url 'yadel_main:contact_us' %}">Contact</a></li>
+      </ul>
+    </div>
+    <!--/.nav-collapse --> 
+  </div>
+</div>

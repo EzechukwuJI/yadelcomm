@@ -1,0 +1,71 @@
+{% extends 'yadel/base.html' %}
+{% load staticfiles %}
+{% block title %}Services{% endblock title %}
+
+	<!-- /.navbar -->
+{% block inner_content %}
+	<header id="head" class="secondary"></header>
+    <div class="container serviceslist">
+      <div class="row">
+      <div class="col-md-12">
+        <header class="page-header">
+					<h1 class="page-title">Services</h1>
+				</header> 
+                </div>
+         </div>       
+      <div class="row">
+        
+        <div class="col-xs-18 col-sm-6 col-md-4">
+          <div class="thumbnail">
+            <img src="{% static 'images/img1.jpg' %}" alt="yadel communications">
+              <div class="caption">
+                <h4>Content Writing</h4>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere, soluta, eligendi doloribus sunt minus amet sit debitis repellat. Consectetur, culpa itaque odio similique suscipit</p>  
+            </div>
+          </div>
+        </div> 
+
+        <div class="col-xs-18 col-sm-6 col-md-4">
+          <div class="thumbnail">
+            <img src="{% static 'images/img3.jpg' %}" alt="yadel communications">
+              <div class="caption">
+                <h4>Press Release Syndication</h4>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere, soluta, eligendi doloribus sunt minus amet sit debitis repellat. Consectetur, culpa itaque odio similique suscipit</p> 
+            </div>
+          </div>
+        </div>
+
+        <div class="col-xs-18 col-sm-6 col-md-4">
+          <div class="thumbnail">
+            <img src="{% static 'images/img4.jpg' %}" alt="yadel communications">
+              <div class="caption">
+                <h4>Media Relations Consulting</h4>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facere, soluta, eligendi doloribus sunt minus amet sit debitis repellat. Consectetur, culpa itaque odio similique suscipit</p> 
+            </div>
+          </div>
+        </div>
+        
+      </div><!-- End row -->
+      
+    </div><!-- End container -->
+ 
+	
+    <div class="container">
+		<div class="row">			
+			<!-- Article content -->
+			<article class="col-sm-12 maincontent"> 
+				<h3>Content Writing</h3>
+				<p><img src="{% static 'images/about.jpg' %}" alt="yadel-services" class="img-rounded pull-right" width="300" > Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+				<h3>Media Relations Consulting</h3>	
+				<p>Standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>				
+				<h3>Press Release Syndication</h3>
+				<p> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+				<h3>General Media Services</h3>
+				<p> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+				<p>It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>				
+			</article>	
+		</div>
+        
+       </div>
+	
+{% endblock inner_content %}
