@@ -1,11 +1,13 @@
 from django.contrib import admin
 
-from yadel_main.models import UserAccount, Publication
+from yadel_main.models import *
 
 # Register your models here.
 
 class PublicationAdmin(admin.ModelAdmin):
-    prepopulated_fields = {'title_slug':('title',)}
+	list_display=('title','posted_by','press_material','media','date_posted','status',)
+	list_filter = ('status','press_material',)
+	prepopulated_fields = {'title_slug':('title',)}
 
 
 
@@ -13,3 +15,5 @@ class PublicationAdmin(admin.ModelAdmin):
 
 admin.site.register(UserAccount)
 admin.site.register(Publication, PublicationAdmin)
+admin.site.register(MediaCategory)
+admin.site.register(MediaNames)

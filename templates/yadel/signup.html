@@ -1,7 +1,7 @@
 {% extends 'yadel/base.html' %}
 {% load staticfiles %}
 
-{% block title %}News Room {% endblock title %}
+{% block title %}Create account {% endblock title %}
 
 
 {% block inner_content %}
@@ -32,28 +32,53 @@
 							<p class="text-center text-muted">If you are already registered, <a href="{% url 'yadel_main:login' %}">Login</a> here </p>
 							<hr>
 
-							<form>
+							<form action="{% url 'yadel_main:sign_up' %}" method = "POST" onsubmit='return check_T_n_C()'>
+								{% csrf_token %}
 								<div class="top-margin">
-									<label>First Name</label>
-									<input type="text" class="form-control">
+									<label>Title<span class="text-danger">*</span></label>
+									{{ signup_form.title }}
+								</div>
+								<div class="top-margin">
+									<label>Username <span class="text-danger">*</span></label>
+									{{ signup_form.username }}
+									{% if username_is_taken %}
+										<small class="text-danger">Ooops! This username has been taken. </small>
+									{% endif %}
+								</div>
+								<div class="top-margin">
+									<label>Name of Organization </label>
+									<input type="text" class="form-control" name="company-name">
+								</div>
+								<div class="top-margin">
+									<label>First Name <span class="text-danger">*</span></label>
+									{{ signup_form.first_name }}
 								</div>
 								<div class="top-margin">
 									<label>Last Name</label>
-									<input type="text" class="form-control">
+									{{ signup_form.last_name }}
 								</div>
 								<div class="top-margin">
+									
 									<label>Email Address <span class="text-danger">*</span></label>
-									<input type="text" class="form-control">
+									{{ signup_form.email }}
+									{% if email_is_taken %}
+										<small class="text-danger">Ooops! This email has been taken. </small>
+									{% endif %}
+								</div>
+
+								<div class="top-margin">
+									<label>Phone Number <span class="text-danger">*</span></label>
+									<input type="number" class="form-control" name="phone_no">
 								</div>
 
 								<div class="row top-margin">
 									<div class="col-sm-6">
 										<label>Password <span class="text-danger">*</span></label>
-										<input type="text" class="form-control">
+										{{ signup_form.password }}
 									</div>
 									<div class="col-sm-6">
 										<label>Confirm Password <span class="text-danger">*</span></label>
-										<input type="text" class="form-control">
+										<input type="password" class="form-control" name="confirm-password">
 									</div>
 								</div>
 
@@ -62,8 +87,8 @@
 								<div class="row">
 									<div class="col-lg-8">
 										<label class="checkbox">
-											<input type="checkbox"> 
-											I've read the <a href="page_terms.html">Terms and Conditions</a>
+											<input type="checkbox" id = "check_tandc"> 
+											I've read the <a href="{% url 'yadel_main:tandc' %}" target="blank">Terms and Conditions</a>
 										</label>                        
 									</div>
 									<div class="col-lg-4 text-right">
@@ -83,3 +108,25 @@
 	</div>	<!-- /container -->
 	
 {% endblock inner_content %}
+<script>
+	function check_T_n_C(){
+		alert("we are here");
+		$this = $('#check_tandc');
+		if !($this.checked()){
+			alert("Accept terms and conditions");
+		}
+	}
+
+
+
+// $('body').on('submit', 'sign_up_form', function(){
+// 	alert("we are here");
+// 	$('#check_tandc').checked();
+// })
+
+</script>
+
+
+
+
+

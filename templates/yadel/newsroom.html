@@ -13,159 +13,72 @@
 	<div class="container"> 
 
 		<div class="row">
-        <header class="page-header">
-					<h1 class="page-title">News Room</h1>
-				</header>
-                
-			 <section id="portfolio" class="page-section section appear clearfix">
-        <div class="container">
-            <div class="heading"> 
-                <p>At lorem Ipsum available, but the majority have suffered alteration in some form by injected humour.</p>
-            </div>
-<br/>
-            <div class="row">
-                <!-- <nav id="filter" class="col-md-12 text-center">
-                    <ul>
-                        <li><a href="#" class="current btn-theme btn-small" data-filter="*">All</a></li>
-                        <li><a href="#" class="btn-theme btn-small" data-filter=".webdesign">Web Design</a></li>
-                        <li><a href="#" class="btn-theme btn-small" data-filter=".photography">Photography</a></li>
-                        <li><a href="#" class="btn-theme btn-small" data-filter=".print">Print</a></li>
-                    </ul>
-                </nav> -->
-                <div class="col-md-12">
-                    <div class="row">
-                        <div class="portfolio-items isotopeWrapper clearfix" id="3">
-<ul>
+            <header class="page-header">
+    			<h2 class="page-title">Some of our recent publications... </h2>
+    		</header>
+    	<section id="portfolio" class="page-section section appear clearfix">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                            <div class="col-md-8">
 
-                            <li class="col-sm-4 isotopeItem webdesign">
-                                <div class="portfolio-item">
-                                    <img src="{% static 'images/portfolio/img1.jpg' %}" alt="" />
-                                    <div class="portfolio-desc align-center">
-                                        <div class="folio-info">
-                                            <a href="{% static 'images/portfolio/img1.jpg' %}" class="fancybox">
-                                                <h5>Project Title</h5>
-                                                <i class="fa fa-link fa-2x"></i></a>
+                                {% for item in articles %}
+                                <!-- News Headlines -->
+                                    <div class="newsfeed">
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <div class="thumbnail">
+                                                    <a href="{% url 'yadel_main:news-details' 'news-title' 'website-url-link' %}">
+                                                        <img src="{{ item.pictures.url }}" alt = "{{ item.title }}" />
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-10 news-title">
+                                                <a href="{% url 'yadel_main:news-details' item.title_slug item.title_slug %}">
+                                                    <h4 class=""> {{ item.title|title }}</h4>
+                                                </a>
+                                                <div class="news-body text-justify">
+                                                    {{ item.content|truncatewords:50 }}
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </li>
+                                {% endfor %}
+                                <!-- Ends newsfeed  -->
 
-                            <li class="col-sm-4 isotopeItem photography">
-                                <div class="portfolio-item">
-                                    <img src="{% static 'images/portfolio/img2.jpg' %}" alt="" />
-                                    <div class="portfolio-desc align-center">
-                                        <div class="folio-info">
-                                            <a href="{% static 'images/portfolio/img2.jpg' %}" class="fancybox">
-                                                <h5>Project Title</h5>
-                                                <i class="fa fa-link fa-2x"></i></a>
-                                        </div>
-                                    </div>
+                                <div class="pagination text-center">
+                                    {% if articles.has_previous %}
+                                        <span class="btn btn-sm btn-info">
+                                            <a href="?page={{ articles.previous_page_number}}"> Previous</a> 
+                                        </span>
+                                    {% endif %}
+                                    <span class="current">
+                                        Page {{ articles.number }} of {{ articles.paginator.num_pages }}.
+                                    </span>
+                                    {% if articles.has_next %}
+                                        <span class="btn btn-sm btn-info">
+                                            <a href="?page={{ articles.next_page_number }}">next</a>
+                                        {% endif %}
+                                        </span>
                                 </div>
-                            </li>
-
-
-                            <li class="col-sm-4 isotopeItem photography">
-                                <div class="portfolio-item">
-                                    <img src="{% static 'images/portfolio/img3.jpg' %}" alt="" />
-                                    <div class="portfolio-desc align-center">
-                                        <div class="folio-info">
-                                            <a href="{% static 'images/portfolio/img3.jpg' %}" class="fancybox">
-                                                <h5>Project Title</h5>
-                                                <i class="fa fa-link fa-2x"></i></a>
-                                        </div>
-                                    </div>
+                                
+                                <br/><br/>
+                                <div class="row">
+                                    <a href="{% url 'yadel_main:create-article' %}">
+                                        <span class="btn btn-default pull-right">submit publication </span>
+                                    </a>
                                 </div>
-                            </li>
-
-                            <li class="col-sm-4 isotopeItem print">
-                                <div class="portfolio-item">
-                                    <img src="{% static 'images/portfolio/img4.jpg' %}" alt="" />
-                                    <div class="portfolio-desc align-center">
-                                        <div class="folio-info">
-                                            <a href="{% static 'images/portfolio/img4.jpg' %}" class="fancybox">
-                                                <h5>Project Title</h5>
-                                                <i class="fa fa-link fa-2x"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-
-                            <li class="col-sm-4 isotopeItem photography">
-                                <div class="portfolio-item">
-                                    <img src="{% static 'images/portfolio/img5.jpg' %}" alt="" />
-                                    <div class="portfolio-desc align-center">
-                                        <div class="folio-info">
-                                            <a href="{% static 'images/portfolio/img5.jpg' %}" class="fancybox">
-                                                <h5>Project Title</h5>
-                                                <i class="fa fa-link fa-2x"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-
-                            <li class="col-sm-4 isotopeItem webdesign">
-                                <div class="portfolio-item">
-                                    <img src="{% static 'images/portfolio/img6.jpg' %}" alt="" />
-                                    <div class="portfolio-desc align-center">
-                                        <div class="folio-info">
-                                            <a href="{% static 'images/portfolio/img6.jpg' %}" class="fancybox">
-                                                <h5>Project Title</h5>
-                                                <i class="fa fa-link fa-2x"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-
-                            <li class="col-sm-4 isotopeItem print">
-                                <div class="portfolio-item">
-                                    <img src="{% static 'images/portfolio/img7.jpg' %}" alt="" />
-                                    <div class="portfolio-desc align-center">
-                                        <div class="folio-info">
-                                            <a href="{% static 'images/portfolio/img7.jpg' %}" class="fancybox">
-                                                <h5>Project Title</h5>
-                                                <i class="fa fa-link fa-2x"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-
-                            <li class="col-sm-4 isotopeItem photography">
-                                <div class="portfolio-item">
-                                    <img src="{% static 'images/portfolio/img8.jpg' %}" alt="" />
-                                    <div class="portfolio-desc align-center">
-                                        <div class="folio-info">
-                                            <a href="{% static 'images/portfolio/img8.jpg' %}" class="fancybox">
-                                                <h5>Project Title</h5>
-                                                <i class="fa fa-link fa-2x"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-
-                            <li class="col-sm-4 isotopeItem print">
-                                <div class="portfolio-item">
-                                    <img src="{% static 'images/portfolio/img9.jpg' %}" alt="" />
-                                    <div class="portfolio-desc align-center">
-                                        <div class="folio-info">
-                                            <a href="{% static 'images/portfolio/img9.jpg' %}" class="fancybox">
-                                                <h5>Project Title</h5>
-                                                <i class="fa fa-link fa-2x"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            
-                            </ul>
+                                <br/>
+                            </div>
+                        <!-- </div> -->
+                        <div class="col-md-4" role = "right panel"> 
+                           {% include 'yadel/snippets/quicklinks-bar.html' with articles=articles %}
                         </div>
-
                     </div>
-
-
                 </div>
-            </div>
 
-        </div>
-    </section>
+            </div>
+        </section>
    
 		
 		</div>

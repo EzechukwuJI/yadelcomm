@@ -1,0 +1,91 @@
+{% extends 'yadel/base.html' %}
+{% load staticfiles %}
+
+{% block title %} Submit Article {% endblock %}
+{% block inner_content %}
+{% with user=request.user %}
+
+	<header id="head" class="secondary"></header>
+
+	<!-- container -->
+	<div class="container"> 
+		<div class="row">
+        	<section id="portfolio" class="page-section section appear clearfix">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-8">
+                                {% if user.is_authenticated %}
+                                    <span class="pull-right"> {{ user|title }} </span>
+                                {% endif %}
+                                <p> &nbsp; </p>
+                                <div class="bg-info">
+                                    <blockquote>Submit your article below.</blockquote>
+                                </div>
+
+                               <div >
+                                {% if messages %}
+                                    {% for message in messages %}
+                                        <strong class= "text-{% if message.tags %} {{message.tags}} {% endif %}">
+                                            {{ message }}
+                                        </strong>
+                                    {% endfor %}
+                                {% endif %}
+                                    <form enctype="multipart/form-data" method="post" action ="{% url 'yadel_main:create-article' %}">
+                                        {% csrf_token %}
+                                        <div class="top-margin">
+                                            <label>Title</label>
+                                            {{ article_form.title }}
+                                        </div>
+
+                                        <div class="top-margin">
+                                            <label>Press Material</label>
+                                            {{ article_form.press_material }}
+                                        </div>
+
+                                        <div class="top-margin">
+                                            <label>Media</label>
+                                            {{ article_form.media }}
+                                            <small class="text-danger"> press hold the shift key to select multiple media</small>
+                                        </div>
+
+                                        <div class="top-margin"> 
+                                            Upload article (<small class="text-danger"> *.Doc, *.Docx of *.pdf only</small>)<br/> 
+                                            {{ article_form.document }}
+                                        </div>
+                                        
+                                        <!-- <strong> Or </strong> -->
+                                        <div class="top-margin">
+                                            <label>Or paste article in the field below</label>
+                                            {{ article_form.content }}
+                                            <small class="text-danger pull-right">3000 characters </small>
+                                        </div>
+                                       
+                                        
+                                        <div class="top-margin">
+                                            <label>Picture</label>
+                                            {{ article_form.pictures }}
+                                        </div>
+                                        <div class="top-margin">
+                                            {{ article_form.publish_online }}
+                                            <label for="id_publish_online">Do yo also want online publication of the chosen media?</label>
+                                        </div>
+                                        <br/>
+                                        <div class="row">
+                                            <input type = "submit" name="submit" value="submit article" class="btn btn-primary pull-right"/>
+                                        </div>
+                                    </form>
+                               </div>
+                            </div>
+                            <div class="col-md-4" role = "right panel"> 
+                               {% include 'yadel/snippets/quicklinks-bar.html' %}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+		</div>
+	</div>	<!-- /container -->
+	{% endwith %}
+{% endblock inner_content %}

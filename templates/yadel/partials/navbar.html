@@ -4,7 +4,7 @@
     <div class="navbar-header"> 
       <!-- Button for smallest screens -->
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
-      <a class="navbar-brand" href="{% url 'yadel_main:index' %}"><img src="" alt="Yadel comm. Logo"></a> </div>
+      <a class="navbar-brand" href="{% url 'yadel_main:index' %}"><img src="{% static 'images/yadellogo.png' %}" alt="Yadel comm. Logo"></a> </div>
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav pull-right">
         <li class="active"><a href="{% url 'yadel_main:index' %}">Home</a></li>
@@ -21,7 +21,7 @@
         <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown">Client <b class="caret"></b></a>
           <ul class="dropdown-menu">
             <li><a href="{% url 'yadel_main:create-article' %}">Submit Publications</a></li>
-            <li><a href="{% url 'yadel_main:user-dashboard' %}">Dashboard</a></li>
+            <li><a href="{% url 'yadel_main:user-dashboard' request.user %}">Dashboard</a></li>
             {% if user.is_authenticated %}
               <li><a href="{% url 'yadel_main:logout' %}">Logout</a></li>
             {% else %}

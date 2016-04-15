@@ -8,5 +8,5 @@ urlpatterns = patterns('',
 
     url(r'^admin/',                            include(admin.site.urls)),
     url(r'^',                                          include('yadel_main.urls',    namespace       =  'yadel_main'  )),
-    url(r'^admin-dashboard/',        include('yadel_admin.urls',   namespace      =    'yadel_admin'  )),
+    url(r'^administrator/',        include('yadel_admin.urls',   namespace      =    'yadel_admin'  )),
 )
