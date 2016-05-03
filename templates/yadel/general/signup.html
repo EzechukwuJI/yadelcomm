@@ -1,0 +1,132 @@
+{% extends 'yadel/general/base.html' %}
+{% load staticfiles %}
+
+{% block title %}Create account {% endblock title %}
+
+
+{% block inner_content %}
+	<!-- /.navbar -->
+
+	<header id="head" class="secondary"></header>
+
+	<!-- container -->
+	<div class="container">
+
+		<!-- <ol class="breadcrumb">
+			<li><a href="index.html">Home</a></li>
+			<li class="active">Registration</li>
+		</ol> -->
+
+		<div class="row">
+			
+			<!-- Article main content -->
+			<article class="col-xs-12 maincontent">
+				<header class="page-header">
+					<h1 class="page-title">Registration</h1>
+				</header>
+				
+				<div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<h3 class="thin text-center">Register a new account</h3>
+							<p class="text-center text-muted">If you are already registered, <a href="{% url 'yadel_main:login' %}">Login</a> here </p>
+							<hr>
+
+							<form action="{% url 'yadel_main:sign_up' %}" method = "POST" onsubmit='return check_T_n_C()'>
+								{% csrf_token %}
+								<div class="top-margin">
+									<label>Title<span class="text-danger">*</span></label>
+									{{ signup_form.title }}
+								</div>
+								<div class="top-margin">
+									<label>Username <span class="text-danger">*</span></label>
+									{{ signup_form.username }}
+									{% if username_is_taken %}
+										<small class="text-danger">Ooops! This username has been taken. </small>
+									{% endif %}
+								</div>
+								<div class="top-margin">
+									<label>Name of Organization </label>
+									<input type="text" class="form-control" name="company-name">
+								</div>
+								<div class="top-margin">
+									<label>First Name <span class="text-danger">*</span></label>
+									{{ signup_form.first_name }}
+								</div>
+								<div class="top-margin">
+									<label>Last Name</label>
+									{{ signup_form.last_name }}
+								</div>
+								<div class="top-margin">
+									
+									<label>Email Address <span class="text-danger">*</span></label>
+									{{ signup_form.email }}
+									{% if email_is_taken %}
+										<small class="text-danger">Ooops! This email has been taken. </small>
+									{% endif %}
+								</div>
+
+								<div class="top-margin">
+									<label>Phone Number <span class="text-danger">*</span></label>
+									<input type="number" class="form-control" name="phone_no">
+								</div>
+
+								<div class="row top-margin">
+									<div class="col-sm-6">
+										<label>Password <span class="text-danger">*</span></label>
+										{{ signup_form.password }}
+									</div>
+									<div class="col-sm-6">
+										<label>Confirm Password <span class="text-danger">*</span></label>
+										<input type="password" class="form-control" name="confirm-password">
+									</div>
+								</div>
+
+								<hr>
+
+								<div class="row">
+									<div class="col-lg-8">
+										<label class="checkbox">
+											<input type="checkbox" id = "check_tandc"> 
+											I've read the <a href="{% url 'yadel_main:tandc' %}" target="blank">Terms and Conditions</a>
+										</label>                        
+									</div>
+									<div class="col-lg-4 text-right">
+										<button class="btn btn-action" type="submit">Register</button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+
+				</div>
+				
+			</article>
+			<!-- /Article -->
+
+		</div>
+	</div>	<!-- /container -->
+	
+{% endblock inner_content %}
+<script>
+	function check_T_n_C(){
+		alert("we are here");
+		$this = $('#check_tandc');
+		if !($this.checked()){
+			alert("Accept terms and conditions");
+		}
+	}
+
+
+
+// $('body').on('submit', 'sign_up_form', function(){
+// 	alert("we are here");
+// 	$('#check_tandc').checked();
+// })
+
+</script>
+
+
+
+
+

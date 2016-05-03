@@ -17,20 +17,16 @@ urlpatterns  =  [
 	url(r'^sign_up/$',         		   					views.signUpView,         name='sign_up'),
 	url(r'^login/$',           		   					views.loginView,          name='login'),
 	url(r'^logout/$',          		   					views.logoutView,         name='logout'),
-
-	url(r'^(?P<username>[-\w]+)/dashboard/$',          	views.dashboardView,      name='user-dashboard'),
+	url(r'^accounts/posts/$',          	                views.dashboardView,      name='user-dashboard'),
 	url(r'^terms-and-conditions/$',          		    views.TandCView,          name='tandc'),
 
 	# url(r'^user/dashboard/$',          					views.ashboardView,      name='admin-dashboard'),
 
 	url(r'^article/create/new/$',      					views.createArticleView,  name='create-article'),
-	url(r'^thank-you/$',      					        TemplateView.as_view(template_name = "yadel/thank-you.html"),  name='registration_success'),
-	url(r'^confirm-registration/(?P<code>[-\w]+)/$',    views.confirmEmail,       name = 'confirm-email'),
+	url(r'^thank-you/$',      					        TemplateView.as_view(template_name = "yadel/thank-you.html"), name='registration_success'),
+	url(r'^confirm-registration/(?P<code>[-\w]+)/$',    views.confirmEmail, name = 'confirm-email'),
+	# url(r'^news/(?P<pk>[-\d]+)/(?P<news_title>[-\w]+)/url=(?P<url_link>[-\w]+)/$',  views.loadExternalNews, name = 'news-details')
 
-	url(r'^news/(?P<news_title>[-\w]+)/url=(?P<url_link>[-\w]+)/$',     views.loadExternalNews,       name = 'news-details')
+	url(r'^news/(?P<pk>[-\d]+)/(?P<news_title>[-\w]+)/$',  views.loadExternalNews, name = 'news-details')
 
-
-	
-]
-
-
+	]  + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -19,29 +19,29 @@ from yadelcommunications.settings import DOMAIN_NAME
 
 
 def  indexView(request):
-    return render(request, 'yadel/index.html', {})
+    return render(request, 'yadel/general/index.html', {})
 
 
 def  aboutUsView(request):
-    return render(request, 'yadel/index.html', {})
+    return render(request, 'yadel/general/index.html', {})
 
 
 def  servicesView(request, service_type):
-    return render(request, 'yadel/services.html', {})
+    return render(request, 'yadel/general/services.html', {})
 
 
 
 def  newsroomView(request):
-    articles = paginate_list(request, Publication.objects.all().order_by('-date_posted'), 5)
-    return render(request, 'yadel/newsroom.html', {'articles':articles})
+    articles = paginate_list(request, Publication.objects.filter(deleted = False, status = "published").order_by('-date_posted'), 5)
+    return render(request, 'yadel/general/newsroom.html', {'articles':articles})
 
 
 
 def  TandCView(request):
-    return render(request, 'yadel/tandc.html', {})
+    return render(request, 'yadel/general/tandc.html', {})
 
 def  contactView(request):
-    return render(request, 'yadel/contact.html', {})
+    return render(request, 'yadel/general/contact.html', {})
 
 
 
@@ -60,11 +60,11 @@ def  signUpView(request):
         if User.objects.filter(username = sender['username']).exists():
             context['signup_form']  =  UserAccountForm(data = request.POST)
             context['username_is_taken']   = True
-            return render(request, 'yadel/signup.html', context)
+            return render(request, 'yadel/general/signup.html', context)
         if User.objects.filter(email = sender['email']).exists():
             context['signup_form']  =  UserAccountForm(data = request.POST)
             context['email_is_taken']   = True
-            return render(request, 'yadel/signup.html', context)
+            return render(request, 'yadel/general/signup.html', context)
         else:
             if user_account_form.is_valid:
                 user = User.objects.create(username = sender['username'], email = sender['email'].lower(),
@@ -86,12 +86,12 @@ def  signUpView(request):
                 print "user creation for %s successful" %(user)
                 return redirect(reverse('yadel_main:registration_success'))
             else:
-                return render(request, 'yadel/signup.html', context)
-    return render(request, 'yadel/signup.html', context)
+                return render(request, 'yadel/general/signup.html', context)
+    return render(request, 'yadel/general/signup.html', context)
 
 
     
-    # return render(request, 'yadel/signup.html', context)
+    # return render(request, 'yadel/general/signup.html', context)
 
 
 
@@ -117,13 +117,11 @@ def  loginView(request):
     context = {}
     username = ""
     context['loginform']  =  form
-
     if request.method   ==  'POST':
         loginForm       =    LoginForm(data = request.POST)
         if loginForm.is_valid():
             email           =     request.POST.get('email').strip()
             password        =     request.POST.get('password').strip()
-
             user_account =  User.objects.filter(email = email)
             if user_account.exists():
                 username = user_account[0].username
@@ -136,22 +134,23 @@ def  loginView(request):
                     if request.POST.get('next')  != "":
                         next  =   request.POST.get('next')
                         return redirect(next) # return to the called page
-                    if user.is_staff:
+                    if user.is_staff or user.is_superuser:
+                        print "redirecting here."
                         return redirect(reverse('yadel_admin:admin-dashboard'))
                     else:
                         return redirect(reverse('yadel_main:user-dashboard'))
                 else:
                     context['inactive'] = True
-                    return render(request,  'yadel/signin.html', context)
+                    return render(request,  'yadel/general/signin.html', context)
             else:
                 context['not_found']   =  True
-                return render(request,  'yadel/signin.html', context)
+                return render(request,  'yadel/general/signin.html', context)
         else:
             context['invalid_form']  = True
-            return render(request,  'yadel/signin.html', context)
+            return render(request,  'yadel/general/signin.html', context)
     else:
-        return render(request,  'yadel/signin.html', context)
-    return render(request, 'yadel/signin.html', {'form':form})
+        return render(request,  'yadel/general/signin.html', context)
+    return render(request, 'yadel/general/signin.html', {'form':form})
 
 
 
@@ -160,7 +159,8 @@ def  loginView(request):
 
 
 def loadExternalNews(request, **kwargs):
-    return render(request, 'yadel/news-detail.html', {'title':kwargs['news_title']})
+    article = get_object_or_404(Publication, pk = kwargs['pk'])
+    return render(request, 'yadel/general/news-detail.html', {'article':article,'external_url':article.redirect_url[0]})
 
 
 
@@ -176,12 +176,12 @@ def  logoutView(request):
 def dashboardView(request, **kwargs):
     context = {}
     template = ""
-    if not request.user.is_staff or request.user.is_superuser:
-        template = 'client/client-dashboard.html'
-        articles = paginate_list(request,Publication.objects.filter(posted_by = request.user).order_by('-date_posted'), 5)
-    else:
-        template = 'admin/admin-dashboard.html'
-        paginate_list(request, Publication.objects.all().order_by('-date_posted'), 5)
+    # if not request.user.is_staff or request.user.is_superuser:
+    template = 'yadel/general/client-dashboard.html'
+    articles = paginate_list(request, Publication.objects.filter(posted_by = request.user, deleted=False, status = "published").order_by('-date_posted'), 5)
+    # else:
+    #     template = 'yadel/admin/admin-dashboard.html'
+    #     paginate_list(request, Publication.objects.filter(deleted = False).order_by('-date_posted'), 5)
     return render(request, template, {'articles':articles})
 
 
@@ -197,21 +197,20 @@ def createArticleView(request):
     if request.method == "POST":
         rp = request.POST
         form = PublicationForm(request.POST, request.FILES)
+
         if form.is_valid():
             article = form.save(commit = False)
             article.posted_by = request.user
-            article.status = "New"
+            article.status = "new"
             if article.save():
                 messages.success(request, "Thank You. Your article has been submitted for publication on %s , We will notify you as soon as this article is published") %(article.media)
             else:
                 messages.error(request, "Opp! Something went wrong. Please try again.")
         else:
-            return render(request, 'yadel/submit-article.html', {'article_form':article_form})
-
+            print form.errors
+            return render(request, 'yadel/general/submit-article.html', {'article_form':article_form})
     # else:
-
-
-    return render(request, 'yadel/submit-article.html', {'article_form':article_form})
+    return render(request, 'yadel/general/submit-article.html', {'article_form':article_form})
 
 
 

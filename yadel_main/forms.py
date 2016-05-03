@@ -5,7 +5,10 @@ from yadel_main.models import *
 
 from yadel_main.helpers import get_content_tuple
 
+from multiupload.fields import MultiFileField
 
+# class UploadForm(forms.Form):
+#     attachments = MultiFileField(min_num=1, max_num=3, max_file_size=1024*1024*5)
 
 
 class LoginForm(forms.ModelForm):
@@ -58,7 +61,7 @@ class PublicationForm(forms.ModelForm):
 	title              =       forms.CharField(max_length = 125, help_text = "",widget=forms.TextInput(attrs={'class' : 'form-control', 'placeholder': 'Enter a title for you article','required':'required'}))
 	press_material     =       forms.ChoiceField(widget=forms.Select(attrs={'class':'form-control', 'required':True}), choices = get_content_tuple(MediaCategory))
 	media              =       forms.MultipleChoiceField(widget=forms.SelectMultiple(attrs={'class':'form-control', 'required':True}), choices = get_content_tuple(MediaNames))
-	pictures           =       forms.ImageField(help_text="", widget=forms.FileInput(attrs={'style':'font-size:15px;'}))
+	pictures           =       forms.ImageField(help_text="", widget=forms.FileInput(attrs={'style':'font-size:15px;','multiple':'multiple'}))
 	document           =       forms.FileField(help_text="", widget=forms.FileInput(attrs={'style':'font-size:15px;'}))
 	content            =       forms.CharField(max_length = 3000, help_text = "", widget=forms.Textarea
 		(attrs={'class':'form-control', 'required':True, 'rows': 10, 'placeholder': 'You can type or  copy and paste your article here. '}))
@@ -69,6 +72,36 @@ class PublicationForm(forms.ModelForm):
 	class Meta:
 		model     =     Publication
 		fields    =     ('title','press_material', 'media','content', 'pictures', 'publish_online')
+
+
+
+
+
+
+class EditandPublishForm(forms.ModelForm):
+	# title              =       forms.CharField(max_length = 125, help_text = "",widget=forms.TextInput(attrs={'class' : 'form-control', 'placeholder': 'Enter a title for you article','required':'required'}))
+	# press_material     =       forms.ChoiceField(widget=forms.Select(attrs={'class':'form-control', 'required':True}), choices = get_content_tuple(MediaCategory))
+	# media              =       forms.MultipleChoiceField(widget=forms.SelectMultiple(attrs={'class':'form-control', 'required':True}), choices = get_content_tuple(MediaNames))
+	# pictures           =       forms.ImageField(help_text="", widget=forms.FileInput(attrs={'style':'font-size:15px;'}))
+	# document           =       forms.FileField(help_text="", widget=forms.FileInput(attrs={'style':'font-size:15px;'}))
+	content            =       forms.CharField(max_length = 3000, help_text = "", widget=forms.Textarea
+		(attrs={'class':'form-control', 'required':True, 'rows': 25,'style':'height:auto'}))
+
+	class Meta:
+		model = Publication
+		fields = ('content','pictures','document','redirect_url')
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

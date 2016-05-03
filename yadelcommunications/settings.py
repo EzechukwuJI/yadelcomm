@@ -47,6 +47,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'yadel_main',
     'yadel_admin',
+    'debug_toolbar'
 )
 
 MIDDLEWARE_CLASSES = (

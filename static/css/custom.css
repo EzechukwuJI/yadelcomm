@@ -8,9 +8,10 @@
 	margin-top: 15px;
 	margin-bottom: 15px;
 
+
 }
 
-.thumbnail {
+.thumbnail2 {
 	width: 95px;
 	height: 105px;
 	padding: 5px;
@@ -27,7 +28,7 @@
 .quick-links .link-item {
 	/*text-decoration: none;*/
 	padding: 5px;
-	border-bottom: thin solid gray;
+	border-bottom: thin solid #e8e8e8;
 	list-style: none;
 }
 
@@ -41,7 +42,7 @@
 	min-height: 200px;
 }
 
-.thumbnail > a > img {
+.thumbnail2 > a > img {
 	width: 90px;
 	height: 100px;
 }
@@ -57,12 +58,13 @@
 	font-family: calibri, verdana, arial;
 	font-size: 12px;
 	color: #000000;
+	word-wrap:break-word;
 }
 
 
 @media(max-width: 768px){
 
-	.thumbnail {
+	.thumbnail2 {
 	width: 45px;
 	height: 45px;
 	padding: 5px;
@@ -70,7 +72,7 @@
 	border: thin solid #e8e8e8;
 	display: none;
 }
-	.thumbnail > a > img {
+	.thumbnail2 > a > img {
 	width: 40px;
 	height: 40px;
 	display: none;
@@ -92,6 +94,29 @@
 }
 
 
+.processing{
+	/*font-weight: bold;*/
+	color:#8a6d3b;
+	text-align: center;
+}
+
+.new {
+	/*font-weight: bold;*/
+	color:#3c763d;
+	text-align: center;
+}
+
+.published {
+	/*font-weight: bold;*/
+	color:#428bca;
+	text-align: center;
+}
+
+.rejected{
+	/*font-weight: bold;*/
+	color:#a94442;
+	text-align: center;
+}
 
 
 .newsfeed .text-content {

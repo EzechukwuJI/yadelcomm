@@ -1,0 +1,64 @@
+{% extends 'yadel/general/base.html' %}
+{% load staticfiles %}
+
+{% block title %}{{ title }} {% endblock title %}
+
+
+{% block inner_content %}
+
+
+	<header id="head" class="secondary"></header>
+
+	<!-- container -->
+	<div class="container"> 
+
+		<div class="row">
+    	<section id="portfolio" class="page-section section appear clearfix">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                            <div class="col-md-8">
+                                <!-- News Headlines -->
+                                <div class="newsfeed">
+                                    <div class="row">
+                                        <div class="col-md-12 news-title">
+                                            
+                                            <h3 class="text-bold"> {{ article.title|title }}</h3>
+                                            For: {{ article.posted_by.useraccount.organization }}
+                                            <span class="pull-right"> Category: <strong> {{ article.press_material|title }}</strong> | {{ article.date_posted|date }} </span>
+                                            <hr/>
+
+                                            <iFRAME src="{{ external_url }}"  frameborder = 0 height="450px" width="100%"></iFRAME>
+                                            <p> {{ external_url }} </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Ends newsfeed  -->
+                                <br/><hr/>
+                                <div class="row">
+
+                                    <div class="pull-right">
+                                        <strong> Do you want us to publish articles for your company/organization?</strong> &nbsp;
+                                        <a href="{% url 'yadel_main:create-article' %}">
+                                            <span class="btn btn-default">Get started here </span>
+                                        </a>
+                                    </div>
+                                </div>
+                                <br/>
+                            </div>
+                        <!-- </div> -->
+                        <!-- ends news feed feed  -->
+
+                        <!-- Right panel -->
+                        <div class="col-md-4" role = "right panel"> 
+                           {% include 'yadel/snippets/quicklinks-bar.html' with articles=articles %}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+		</div>
+	</div>	<!-- /container -->
+	
+{% endblock inner_content %}

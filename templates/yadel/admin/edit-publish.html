@@ -1,0 +1,170 @@
+{% extends 'yadel/general/base.html' %}
+{% load custom_template_tags %}
+{% load staticfiles %}
+
+{% block title %} Edit and publish article {% endblock %}
+{% block inner_content %}
+{% with user=request.user %}
+
+	<header id="head" class="secondary"></header>
+
+	<!-- container -->
+	<div class="container"> 
+		<div class="row">
+        	<section id="portfolio" class="page-section section appear clearfix">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-10">
+                                {% if user.is_authenticated %}
+                                    <span class="pull-right"> {{ user|title }} </span>
+                                {% endif %}
+                                <p> &nbsp; </p>
+                                <div class="bg-info">
+                                    <blockquote>Edit and publish article.</blockquote>
+                                </div>
+
+                               <div >
+                                {% if messages %}
+                                    {% for message in messages %}
+                                        <strong class= "text-{% if message.tags %} {{message.tags}} {% endif %}">
+                                            {{ message }}
+                                        </strong>
+                                    {% endfor %}
+                                {% endif %}
+                                    <form enctype="multipart/form-data" method="post" action ="{% url 'yadel_admin:publish-article' post.pk  action %}">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="post_id" value={{ post.pk }} />
+                                        <input type="hidden" name="post_action" value={{ action }} />
+                                        {% if action == "send-to-media" %}
+                                        <div class="row text-white" style="background-color: gray; padding: 10px 10px 10px 10px;">
+                                            <p>
+                                                <strong>{{ post.title|title }}</strong> [<small class='text-white' id="id_change_title" style="cursor:pointer;"> change title </small>]
+                                                <input type="hidden" name="article_title" value={{ post.title }} />
+                                                <div class="bg-white hidden" id="new_title_div" style="padding:5px 10px 10px 10px;">
+                                                    <small class="text-white">
+                                                        Enter the new title below.
+                                                        <span class="pull-right" id="close_change_title" style="cursor:pointer;">[close]</span>
+                                                    </small>
+                                                    <input type="text" class="form-control" name="new_post_title" id="change_title" placeholder ='Enter the new title here...' />
+                                                    <small class="pull-right text-white"><span id="char-counter">[125</span>&nbsp; characters]</small>
+                                                </div>
+                                                <span class="pull-right">
+                                                    <strong>Category: </strong>{{post.press_material}}
+                                                     <input type="hidden" name="press_material" value={{ post.press_material }} />
+                                                </span>
+                                            </p>
+                                            <small>Posted By: {{post.posted_by|title }} on {{ post.date_posted }} </small> <br/>
+                                            
+                                            <strong>Selected Media: </strong>
+                                            {% for media in  post.id|get_post_media %} 
+                                                <code>{{ media }}</code> | 
+                                                <!-- <input type = "text" value = {{ media }} name = "selected_media" /> -->
+                                            {% endfor %}
+                                        </div>
+                                        <br/>
+                                        <div class="row" style="background-color: gray;">
+                                            <p class="text-white"><strong> &nbsp; &nbsp; Attached Images</strong></p>
+                                            <div class="col-sm-3"><img class="thumbnail" src={{post.pictures.url}}  alt = "{{ post.title }}"/></div>
+                                            <div class="col-sm-3"><img class="thumbnail" src={{post.pictures.url}}  alt = "{{ post.title }}"/></div>
+                                            <div class="col-sm-3"><img class="thumbnail" src={{post.pictures.url}}  alt = "{{ post.title }}"/></div>
+                                            <div class="col-sm-3"><img class="thumbnail" src={{post.pictures.url}}  alt = "{{ post.title }}"/></div>
+                                        </div>
+                                        <br/>
+                                        <div class="row"> 
+                                            <textarea class="form-content text-justify" id= "id-post-content" name="post-content" style="height:400px; width:100%; padding:5px;"> {{ post.content}} 
+                                            </textarea>
+                                            <div class="row">
+                                                <br/>
+                                                <strong> Selecet Media contacts to send this publication to </strong>
+                                                <select multiple="multiple" class="form-control" name="media_contact">
+                                                    {% for key, value in contact_dict.items %}
+                                                        {% for contact in value %}
+                                                            <option value = {{ contact }} > <strong>{{ key|title }}</strong>&nbsp;| {{ contact|capfirst }} </option>
+                                                        {% endfor %}
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            <input type="checkbox" name="is_edited" id="is-edited" /> Post is Edited.
+                                            <input type="checkbox" name="post_online" id="post_online" /> Post Online.
+                                        </div>
+                                    {% elif action == "update" %}
+                                        <div class="row" id = "media_urls">
+                                            <p> Enter the online media link(s) to this publication </p>
+                                            <div class="col-sm-9" id = "url_field">
+                                                <input type = "text" name="post_url[]" class="form-control" placeholder = "Enter media url here..." />
+                                            </div>
+                                            <div class="col-sm-3" >
+                                                <span class="btn btn-primary" id = "add_url_field"> add </span>
+                                            </div>
+                                            
+                                            <input type="hidden" name="post_id" value={{ post.pk }} />
+                                            <input type="hidden" name="post_action" value={{ action }} />
+                                        </div>
+                                        <hr/>
+                                    {% endif %}
+                                        <br/>
+                                        <div class="row">
+                                            <input type = "submit" name="submit" value="publish post" class="btn btn-primary pull-right"/>
+                                        </div>
+                                    </form>
+                               </div>
+                            </div>
+                            <div class="col-md-2" role = "right panel"> 
+                               
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+		</div>
+	</div>	<!-- /container -->
+	{% endwith %}
+{% endblock inner_content %}
+
+{% block scripts %}
+    <script>
+        $('body').on('click', '#id_change_title', function(){
+            // alert('we are here');
+            $('#new_title_div').removeClass('hidden');
+        })
+    </script>
+    <script>
+        $('body').on('click', '#close_change_title', function(){
+            $('#new_title_div').addClass('hidden');
+        })
+
+
+        $('body').on('click','#add_url_field', function(){
+            var newfield = document.createElement('div');
+            newfield.innerHTML = "<br/><span class='pull-right text-danger delete_url_field' style ='cursor:pointer'> [delete]</span><input type = 'text' name='post_url[]' class='form-control' placeholder = 'Enter media url here...' />";
+            document.getElementById('url_field').appendChild(newfield);
+        })
+
+        $('body').on('click','.delete_url_field', function(){
+            // alert($('#this').parent.html);
+            $('#this').parent.addClass('hidden');
+        })
+
+    </script>
+    <script>
+        $('body').on('keypress', '#change_title', function(){
+            $('#change_title').keyUp
+            // alert($("#char-counter").text.length);
+
+            var chars = $("#char-counter").text.length;
+            $('#char-counter').val(125 - chars);
+        })
+
+
+    </script>
+{% endblock scripts %}
+
+
+
+
+
+
+
+
