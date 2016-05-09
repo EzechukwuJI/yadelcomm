@@ -1,0 +1,37 @@
+{% load custom_template_tags %}
+<!-- <tbody> -->
+    {% for item in status_article %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td><b>{{ item.title|title }}</b></td>
+            <td>{{ item.posted_by }}</td>
+            <td>{% for media in  item.id|get_post_media %} {{ media }} {% endfor %}</td>
+            <td>{{ item.content|truncatewords:15 }}</td>
+            <td>{% if item.publish_online %} Yes {% else %} No {% endif %}</td>
+            <td>{{ item.date_posted }}</td>
+            <td class = {{ item.status }} >{{ item.status|upper }}</td>
+            <td>{% if item.status == "new" %}
+                    <a href="{% url 'yadel_admin:publish-article' item.pk 'send-to-media' %}" class="btn btn-success" style="padding:10px 14px 10px 14px;"/>Publish</a>
+                {% elif item.status == "processing" %}
+                    <a href="{% url 'yadel_admin:publish-article' item.pk 'update' %}" class="btn btn-primary" style="padding:10px 14px 10px 14px;"/>Update</a> 
+                {% elif item.status == "published" %}
+                  <span class="btn btn-warning" style="padding:10px"/> Published</span>
+                {% endif %}
+            </td>
+        </tr>
+    {% empty %}
+        <p> No article found for this status </p>
+    {% endfor %}
+<!-- </tbody> -->
+
+
+                                
+
+
+
+
+
+
+
+
+

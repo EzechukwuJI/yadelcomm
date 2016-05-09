@@ -20,10 +20,9 @@ urlpatterns  =  [
 	url(r'^accounts/posts/$',          	                views.dashboardView,      name='user-dashboard'),
 	url(r'^terms-and-conditions/$',          		    views.TandCView,          name='tandc'),
 
-	# url(r'^user/dashboard/$',          					views.ashboardView,      name='admin-dashboard'),
-
+	# url(r'^client/feedback/$',                          views.clientFeedback,           name = 'user-feedback'),
 	url(r'^article/create/new/$',      					views.createArticleView,  name='create-article'),
-	url(r'^thank-you/$',      					        TemplateView.as_view(template_name = "yadel/thank-you.html"), name='registration_success'),
+	url(r'^thank-you/$',      					        TemplateView.as_view(template_name = "yadel/general/thank-you.html"), name='registration_success'),
 	url(r'^confirm-registration/(?P<code>[-\w]+)/$',    views.confirmEmail, name = 'confirm-email'),
 	# url(r'^news/(?P<pk>[-\d]+)/(?P<news_title>[-\w]+)/url=(?P<url_link>[-\w]+)/$',  views.loadExternalNews, name = 'news-details')
 

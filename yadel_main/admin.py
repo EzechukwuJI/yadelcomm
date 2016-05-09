@@ -18,4 +18,6 @@ admin.site.register(Publication, PublicationAdmin)
 admin.site.register(MediaCategory)
 admin.site.register(MediaNames)
 admin.site.register(MediaContact)
+admin.site.register(ClientFeedback)
+admin.site.register(LatestNews)
 

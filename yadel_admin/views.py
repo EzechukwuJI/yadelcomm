@@ -5,6 +5,7 @@ from django.http import HttpResponse
 
 from yadel_main.models import UserAccount, MediaCategory, MediaNames, Publication, MediaContact
 from yadel_main.forms import EditandPublishForm
+from yadel_main import models as main_model
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -25,11 +26,22 @@ def  indexView(request):
 
 
 @login_required()
-def adminDashboardView(request):
+def adminDashboardView(request, status):
 	context = {}
-	# print "caught admin view......."
-	submissions = paginate_list(request, Publication.objects.filter(deleted = False).order_by('status'), 15)
+	submissions = paginate_list(request, Publication.objects.filter(deleted = False).order_by('status','-date_posted'), 10)
 	context['submissions'] = submissions
+	context['status']  =  status
+	if request.method == "POST":
+		status = request.POST['search-by-status']
+		# print "Article status ", status
+		context['status']  =  status
+		if status == "all":
+			submissions = paginate_list(request, Publication.objects.filter(deleted = False).order_by('status','-date_posted'), 10)
+			context['submissions'] = submissions
+		else:
+			submissions = paginate_list(request, Publication.objects.filter(status = status, deleted = False).order_by('-date_posted'), 10)
+			context['submissions'] = submissions
+		return render(request, 'yadel/admin/admin-dashboard.html', context)
 	return render(request, 'yadel/admin/admin-dashboard.html', context)
 
 
@@ -58,76 +70,50 @@ def publishArticle(request, **kwargs):
 		# print media_list
 		if request.method == "POST":
 			publish_article(request, request.POST['post_action'], article)
-			return redirect(reverse('yadel_admin:admin-dashboard'))
+			return redirect(reverse('yadel_admin:admin-dashboard', kwargs = {'status': 'new'}))
 		else:
 			return render(request, 'yadel/admin/edit-publish.html', {'post':article, 'action':action, 'contact_dict': media_contacts_dict})
 
-	# return render(request, 'yadel/admin/edit-publish.html', {'post':article, 'action':action, 'contact_dict': media_contacts_dict})
-
-			# action   =   rp['post_action']  
-			# article_title = ""
-			# rp = request.POST
-			# if action == "send-to-media":
-			# 	media_contact_emails = [val.split('-')[1].encode('utf-8') for val in rp.getlist('media_contact')]
-			# 	print "selected media contact ", media_contact_emails
-			# 	if rp['new_post_title'] != "":
-			# 		article.title 	= 	rp['new_post_title'] # overwrite existing title
-			# 		article_title   =   rp['new_post_title']
-			# 	else:
-			# 		article_title = article.title
-			# 	article.content 	= 	rp['post-content']
-			# 	article.status 		= 	"processing"
-			# 	article_heading 	=  "<div style='padding:5px;text-align:left'><span style='font-size:16px;'>TITLE: &nbsp; " + article_title.upper() + "</span></div>"
-			# 	category 			=  "<div style='padding:5px;text-align:left'><strong>Press Material: </strong>" + rp['press_material'] + "<br/></div><br/>"
-			# 	text_body           =  "<div style='text-align:justify'>" + rp['post-content'] + "</div>"
-			# 	# send post to media jounalists emails
-			# 	subject                  =      'Publication submission from Yadel communications'
-   #              content                  =       article_heading + category + text_body
-   #              sender                   =      'editor@yadelcommunications.com'
-   #              recipient_list           =       media_contact_emails
-   #              headers  				 =       {}
-   #              # try:
-   #              article_mail  = EmailMessage(subject = subject, body = content,from_email = sender, bcc = recipient_list)
-   #              article_mail.content_subtype = "html" # leaves main type as text/html
-
-   #              if article.pictures:
-   #                  attach_image 	= 	article.pictures
-   #                  article_mail.attach(attach_image.name, attach_image.read())
-   #              else:
-   #                  print "No picture to attach..."
-   #              article_mail.send(fail_silently = False)
-   #              article.save()
-   #              return redirect(reverse('yadel_admin:admin-dashboard'))
+	
 
 
-
-   #          elif action == "update": 
-   #          	print "yes"
-        
-
-
-	# return redirect(reverse('yadel_admin:admin-dashboard'))
-
-	# get return external url
-			# link = DOMAIN_NAME + "news/" + str(article.pk) + "/" + article.title_slug
-
-			# # SEND MAIL WITH PASSWORD using sendmail
-			# message  = "Hello " + article.posted_by.first_name + ", "
-			# message += "Your article has been published on our portal. Use the links below to <br/><br/> " + link
-			# message += "start posting your projects. <br/><br/> You are required to change this password once you're logged in.<br/>"
-
-			# message += "Use the link below to change your password.<br/>"
-			# message += "<br/><strong> Your logging details are: </strong> <br/><br/> Username: " + email + "<br/>password: " + str(password) + "<br/><br/>"
-			# message += "Change your password  <a href=" + link + ">Here </a><br/> <br/> Regards: <br/> The ndoozi.com Team"
-			# print message
-			# # send email to customer
-			# notify  = EmailMessage(subject= 'Your article has been published', body = message, to =[email])
-			# notify.content_subtype = 'html'
-			# notify.send()
+def contentManager(request):
+	context = {}
+	
+	if request.method == "POST":
+		rp = request.POST
+		model = rp['object_model']
+		object_model = getattr(main_model, rp['object_model'])
+		if model == "MediaCategory":
+			content = object_model.objects.create(media_type = rp['press_material'], date_added = datetime.datetime.now())
+		elif model == "MediaNames":
+			content = object_model.objects.create(media_name = rp['media_name'], date_added = datetime.datetime.now())
+		elif model == "LatestNews":
+			content = object_model.objects.create(news_content = rp['latest_news'], date_added = datetime.datetime.now())
+		elif model == "MediaContact":
+			media = MediaNames.objects.get(pk = rp['media_house'])
+			content = object_model.objects.create(media=media, person = rp['media_contact'],contact_email = rp['media_contact_email'], date_added = datetime.datetime.now())
+		if content:
+			messages.info(request, "Content successfully created.")
+		# print "object model ", object_model
+	context['media_category']    =       MediaCategory.objects.all()
+	context['media_names']       =       MediaNames.objects.all()
+	context['media_contacts']    =  	 MediaContact.objects.all()
+	context['clients']           =       UserAccount.objects.filter(user__is_staff = False, user__is_active = True)
+	context['members_of_staff']  =       UserAccount.objects.filter(user__is_staff = True, user__is_active = True)
+	return render(request, 'yadel/admin/content-manager.html', context)
 
 
 
 
+
+
+def delete_content(request, pk, model):
+	object_model = getattr(main_model, model)
+	content_to_delete = object_model.objects.get(pk = pk)
+	content_to_delete.delete()
+	messages.info(request, "Item has been deleted")
+	return redirect(request.META['HTTP_REFERER'])
 
 
 

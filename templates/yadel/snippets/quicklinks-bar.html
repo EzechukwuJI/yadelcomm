@@ -8,7 +8,7 @@
             <dd class="quick-links">
                 {% for item in articles %}
                     <li class="link-item">
-                        <a href="#"> {{ item.title_slug }} </a>
+                        <a href="{% url 'yadel_main:news-details' item.pk item.title_slug %}"> {{ item.title|title }} </a>
                     </li>
                 {% endfor %}
                 <!-- <li class="link-item">

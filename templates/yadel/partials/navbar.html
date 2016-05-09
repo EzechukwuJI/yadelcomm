@@ -21,10 +21,11 @@
         {% if user.is_superuser or user.is_staff %}
           <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin <b class="caret"></b></a>
             <ul class="dropdown-menu">
-              <li><a href="{% url 'yadel_admin:admin-dashboard'%}">Dashboard</a></li>
+              <li><a href="{% url 'yadel_admin:admin-dashboard' 'new' %}">Dashboard</a></li>
               <li><a href="{% url 'yadel_main:create-article' %}">Create New Publication</a></li>
-              <!-- <li><a href="{% url 'yadel_admin:admin-dashboard' %}">View Submissions</a></li> -->
-              <li><a href="{% url 'yadel_admin:user-manager' %}">Manage Users</a></li>
+              <!-- <li><a href="{% url 'yadel_admin:admin-dashboard' 'new' %}">View Submissions</a></li> -->
+              <li><a href="{% url 'yadel_admin:content-manager' %}#user-manager">User Manager</a></li>
+              <li><a href="{% url 'yadel_admin:content-manager' %}#content-manager">Content Manager</a></li>
               {% if user.is_authenticated %}
                 <li><a href="{% url 'yadel_main:logout' %}">Logout</a></li>
               {% else %}

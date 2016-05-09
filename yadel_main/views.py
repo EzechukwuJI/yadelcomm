@@ -9,7 +9,7 @@ from django.core.mail import EmailMessage, EmailMultiAlternatives
 from django.db.models import F
 from django.contrib import messages
 
-from yadel_main.models import UserAccount, MediaCategory, MediaNames, Publication
+from yadel_main.models import UserAccount, MediaCategory, MediaNames, Publication, ClientFeedback, LatestNews
 from yadel_main.forms import LoginForm, UserAccountForm,PublicationForm
 from yadel_main.helpers import get_reg_code, paginate_list
 from yadelcommunications.settings import DOMAIN_NAME
@@ -19,11 +19,12 @@ from yadelcommunications.settings import DOMAIN_NAME
 
 
 def  indexView(request):
-    return render(request, 'yadel/general/index.html', {})
+    news = LatestNews.objects.all().order_by('-date_added')[0]
+    return render(request, 'yadel/general/index.html', {'latest_news':news})
 
 
 def  aboutUsView(request):
-    return render(request, 'yadel/general/index.html', {})
+    return render(request, 'yadel/general/about.html', {})
 
 
 def  servicesView(request, service_type):
@@ -41,7 +42,23 @@ def  TandCView(request):
     return render(request, 'yadel/general/tandc.html', {})
 
 def  contactView(request):
+    if request.method == "POST":
+        rp = request.POST
+        feedback = ClientFeedback.objects.create(sender = rp['sender'],email = rp['sender_email'], message = rp['message'])
+        if feedback:
+            messages.info(request, "Thank you for reaching out to us. We will respond to your request within 48 hours")
+            subject = '[Yadelcommunications] - New message from ' + rp['sender']
+            notify  = EmailMessage(subject= subject, body = rp['message'], to =['editor@yadelcommunications.com'])
+            notify.content_subtype = 'html'
+            notify.send()
+        else:
+            messages.warning(request, "Ooops! Sorry something went wrong while trying to post your message, please try again. If this error persists kindly shoot us a mail.")
     return render(request, 'yadel/general/contact.html', {})
+
+
+
+
+
 
 
 
@@ -160,7 +177,8 @@ def  loginView(request):
 
 def loadExternalNews(request, **kwargs):
     article = get_object_or_404(Publication, pk = kwargs['pk'])
-    return render(request, 'yadel/general/news-detail.html', {'article':article,'external_url':article.redirect_url[0]})
+    articles = Publication.objects.filter(deleted = False, status = "published")
+    return render(request, 'yadel/general/news-detail.html', {'article':article,'articles':articles})
 
 
 
@@ -218,6 +236,7 @@ def createArticleView(request):
 
 
 
+# def clientFeedback(request):
 
 
 

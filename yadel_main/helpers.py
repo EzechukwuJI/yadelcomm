@@ -5,7 +5,7 @@ from django.core.paginator import Paginator,EmptyPage, PageNotAnInteger
 from django.core.mail import EmailMessage, EmailMultiAlternatives
 from django.shortcuts import render,redirect, get_object_or_404
 from django.core.urlresolvers import reverse
-from yadelcommunications.settings import DOMAIN_NAME
+from yadelcommunications.settings import DOMAIN_NAME, DEFAULT_FROM_EMAIL
 
 
 
@@ -85,7 +85,7 @@ def publish_article(request, action, article):
             article_mail.attach(attach_image.name, attach_image.read())
         else:
             print "No picture to attach..."
-        article_mail.send(fail_silently = False)
+        # article_mail.send(fail_silently = False)
         article.save()
         # return redirect(reverse('yadel_admin:admin-dashboard'))
     elif action == "update":
@@ -108,7 +108,7 @@ def publish_article(request, action, article):
 
         subject                  =      "[Yadelcommunications] Your article has been published."
         content                  =       message
-        sender                   =      'editor@yadelcommunications.com'
+        sender                   =       DEFAULT_FROM_EMAIL
         recipient_list           =       clients_email
         headers                  =       {}
         # try:
@@ -119,7 +119,7 @@ def publish_article(request, action, article):
             article_mail.attach(attach_image.name, attach_image.read())
         else:
             print "No picture to attach..."
-        article_mail.send(fail_silently = False)
+        # article_mail.send(fail_silently = False)
         article.save()
         # return redirect(reverse('yadel_admin:admin-dashboard'))
         

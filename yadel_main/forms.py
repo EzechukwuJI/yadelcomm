@@ -89,7 +89,7 @@ class EditandPublishForm(forms.ModelForm):
 
 	class Meta:
 		model = Publication
-		fields = ('content','pictures','document','redirect_url')
+		fields = ('content','pictures','redirect_url')
 
 
 

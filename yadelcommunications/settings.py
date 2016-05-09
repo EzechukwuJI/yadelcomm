@@ -16,7 +16,7 @@ from django.conf import global_settings
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 TEMPLATE_DIRS =[os.path.join(BASE_DIR, 'templates')]
 STATICFILES_DIRS = (os.path.join(BASE_DIR,'static'),)
-DOMAIN_NAME  =  "www.yadelcommunications.com/"
+DOMAIN_NAME  =  "www.yadelcommunications.com"
 
 TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + [
     "django.core.context_processors.request"

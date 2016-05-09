@@ -21,11 +21,22 @@ PUB_STATUS = (
 class MediaNames(models.Model):
   media_name          =           models.CharField(max_length = 200)
   date_added          =           models.DateTimeField(auto_now_add = True)
-  contact_persons     =           models.ManyToManyField(User)
+  contact_persons     =           models.ManyToManyField(User, blank = True)
 
 
   def __unicode__(self):
     return '%s' %(self.media_name)
+
+
+
+class LatestNews(models.Model):
+  news_content          =           models.CharField(max_length = 300)
+  date_added            =           models.DateTimeField(auto_now_add = True)
+  # contact_persons       =           models.ManyToManyField(User)
+
+
+  def __unicode__(self):
+    return '%s' %(self.date_added)
 
 
 
@@ -55,27 +66,8 @@ class MediaCategory(models.Model):
   media_type                        =         models.CharField(max_length = 150)
   date_added                        =         models.DateTimeField(auto_now_add = True)
 
-
   def __unicode__(self):
     return '%s' %(self.media_type)
-
-
-
-
-# class MediaHouse(models.Model):
-#   name                =           models.CharField(max_length = 175)
-  
-
-
-#   def __unicode__(self):
-#     return self.name
-
-
-
-
-
-
-
 
 
 
@@ -106,7 +98,7 @@ class Publication(models.Model):
     media                           =              models.CharField(max_length = 125)
     content                         =              models.TextField(max_length = 3000)
     pictures                        =              models.FileField(upload_to ='media/')
-    document                        =              models.FileField(upload_to ='publication/%Y-%M-%D', null=True, blank = True)
+    # document                        =              models.FileField(upload_to ='publication/%Y-%M-%D', null=True, blank = True)
     deleted                         =              models.BooleanField(default = False)
     publish_online                  =              models.BooleanField("Do you also want online publication of the chosen media? ", default = False)
     published_by                    =              models.ForeignKey(User, related_name="Edited_and_published_by", null = True, blank = True)
@@ -128,7 +120,14 @@ class Publication(models.Model):
 
 
 
+class ClientFeedback(models.Model):
+  sender     =   models.CharField(max_length = 125)
+  email      =   models.CharField(max_length = 225)
+  message    =   models.TextField(max_length = 1000)
 
+
+  def __unicode__(self):
+    return self.sender
 
 
 

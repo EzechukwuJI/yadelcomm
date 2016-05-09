@@ -1,0 +1,301 @@
+{% extends 'yadel/general/base.html' %}
+{% load staticfiles %}
+
+{% block title %}Content Manager{% endblock title %}
+{% block inner_content %} 
+
+<header id="head" class="secondary"></header>
+	<div id ="content-manager"></div>
+	<div class="container">
+		<div class="row">
+			{% for msg in messages %}
+				<blockquote class="bg-success"> {{ msg }} </blockquote>
+			{% endfor %}
+			<header class="page-header">
+                <div class="row">
+                    <div class="col-sm-12" >
+                        <h3 style="margin:0px;">Content Manager </h3>
+                    </div>
+                </div>
+            </header>
+		</div>
+
+		<div class="row">
+			<!-- media categories  -->
+			<div class="col-md-6 row-height">
+	            <div class="row">
+	                <div class="col-sm-6 bg-white" >
+	                	<strong >PRESS MATERIAL</strong> 
+	                	<br/>
+	                	<div class="content-list">
+		                	{% for category in media_category %}
+		                		<li> 
+		                			{{ category }} 
+		                			<a href="{% url 'yadel_admin:delete-content' category.pk 'MediaCategory' %}" title="delete this media category" id = "delete-media-category">
+		                				<span class="pull-right"><i class="glyphicon glyphicon-trash"></i></span>
+		                			</a>
+		                		</li>
+		                	{% endfor %}
+		                </div>
+
+	                </div>
+	                <div class="col-sm-6">
+	                	<br/>
+	                	<form  action="{% url 'yadel_admin:content-manager' %}" method="post">
+	                		{% csrf_token %}
+	                		<input type="text" name = "press_material" class="form-control"placeholder="Enter new media/press material" required />
+	                		<input type="hidden" name = "object_model" value ="MediaCategory" required />
+	                		<br/>
+	                		<input type="submit" value="add new" class="btn btn-success pull-right" style="margin-bottom: 10px;" />
+	                	</form>
+	                </div>
+	            </div>
+	        </div>
+		    <!-- media names  -->
+		    <div class="col-md-6 row-height">
+	            <div class="row">
+	                <div class="col-sm-6">
+	                	<strong >MEDIA NAMES</strong> 
+	                	<br/>
+	                	<div class="content-list">
+		                	{% for media in media_names %}
+		                		<li> 
+		                			{{ media }} 
+		                			<a href="{% url 'yadel_admin:delete-content' media.pk 'MediaNames' %}" title="delete this media" id="delete-media-name">
+		                				<span class="pull-right"><i class="glyphicon glyphicon-trash"></i></span>
+		                			</a>
+		                		</li>
+		                	{% endfor %}
+		                </div>
+	                </div>
+	                <div class="col-sm-6" style="background-color:#e9e9e9;">
+	                	<br/>
+	                	<form action="{% url 'yadel_admin:content-manager' %}" method="post">
+	                		{% csrf_token %}
+	                		<input type="text" name = "media_name" class="form-control"placeholder="Enter new media name" required />
+	                		<input type="hidden"  name = "object_model" value ="MediaNames" />
+	                		<br/>
+	                		<br/>
+	                		<input type="submit" value="add new" class="btn btn-success pull-right" style="margin-bottom: 10px;" />
+	                	</form>
+	                </div>
+	            </div>
+	        </div> 
+		</div> <!-- row ends -->
+	</div>
+
+	<div class="container">
+		<div class="row">
+			<!-- media categories  -->
+			<div class="col-md-6 row-height-large">
+	            <div class="row">
+	                <div class="col-sm-6 bg-white" >
+	                	<strong >ADD LATEST NEWS</strong> 
+	                	<br/>
+	                </div>
+	                <div class="col-sm-12">
+	                	<br/>
+	                	<form action="{% url 'yadel_admin:content-manager' %}" method="post">
+	                		{% csrf_token %}
+	                		<textarea name = "latest_news" class="form-control"placeholder="Enter new media category name" rows = "7" required ></textarea>
+	                		<input type="hidden" name = "object_model" value ="LatestNews" />
+	                		<br/>
+	                		<input type="submit" value="post news" class="btn btn-success pull-right" style="margin-bottom: 10px;" />
+	                	</form>
+	                </div>
+	            </div>
+	        </div>
+		    <!-- media names  -->
+		    <div class="col-md-6 row-height-large">
+	            <div class="row">
+	            	
+	                <div class="col-sm-12">
+	                	<div>
+	                		<strong > ADD MEDIA CONTACT</strong> 
+	                		<span class="pull-right">
+	                			<!-- <a href="#">View Contacts</a> -->
+	                		</span>
+	                	</div>
+	                	<br/>
+	                	<!-- <br/> -->
+	                	<form action="{% url 'yadel_admin:content-manager' %}" method="post">
+	                		{% csrf_token %}
+	                		<input type="text" name = "media_contact" class="form-control"placeholder="Enter contact's name" required />
+	                		<br/>
+	                		<input type="email" name = "media_contact_email" class="form-control"placeholder="Enter contact's email" required />
+	                		<br/>
+	                		<select name ="media_house" id = "contact_media_house" class="form-control">
+	                			{% for media in media_names %}
+                                	<option value ="{{media.pk }}"> {{ media }}</option>
+                                {% endfor %}
+                             </select>
+	                		<input type="hidden" name = "object_model" value ="MediaContact" />
+	                		<br/>
+	                		<input type="submit" value="add contact" class="btn btn-success pull-right" style="margin-bottom: 10px;" />
+	                	</form>
+	                </div>
+	            </div>
+	        </div> 
+		</div>
+	</div>
+
+
+	<div id ="user-manager"></div>
+	<div class="container">
+		<div class="row">
+			<header class="page-header">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h3 style="margin:0px;" >User Manager </h3>
+                    </div>
+                </div>
+            </header>
+
+			<!-- media categories  -->
+			<div class="col-md-12">
+				<ul class="nav nav-tabs" role="tablist" style="background-color:#e9e9e9;">
+				<li role="presentation" >
+          			<a href="#tb1" aria-controls="profile" role="tab" data-toggle="tab">Staff</a>
+		        </li>
+		        <li role="presentation">
+		          <a href="#tb2" aria-controls="home" role="tab" data-toggle="tab">Clients</a>
+		        </li>
+		        <li role="presentation">
+		          <a href="#tb3" aria-controls="home" role="tab" data-toggle="tab">Media Contacts</a>
+		        </li>
+            </ul>
+
+
+
+
+	 	<div class="row-height-xlarge">
+            <div class="tab-content two">
+                    <div role="tabpanel" class="tab-pane active" id="tb1">
+                        <table width="100%"  class="table table-bordered table-striped table-hover table-responsive">
+                        	<thead>
+	                            <tr>
+	                                <th></th>
+	                                <th>First Name</th>
+	                                <th>Last Name</th>
+	                                <th>Email</th>
+	                                <th>Phone</th>
+	                                <!-- <th>Organization</th> -->
+	                                <th>Confirmed</th>
+	                                <th>Registered on</th>
+	                                <th>Action</th>
+	                            </tr>
+	                        </thead>
+	                        <tbody>
+	                        	{% for person in members_of_staff %}
+	                        		<tr>
+	                        			<td>{{ forloop.counter }}</td>
+	                        			<td>{{ person.user.first_name|title }}</td>
+	                        			<td>{{ person.user.last_name|title }}</td>
+	                        			<td>{{ person.user.email }}</td>
+	                        			<td>{{ person.phone_no }}</td>
+	                        			<!-- <td>{{ person.organization }}</td> -->
+	                        			<td>{{ person.is_confirmed }}</td>
+	                        			<td>{{ person.date_created|date }}</td>
+	                        			<td>
+	                        				<a href="{% url 'yadel_admin:delete-content' person.pk 'UserAccount' %}" title="delete this staff account" id = "delete-staff">
+		                						<span class="pull-right"><i class="glyphicon glyphicon-trash"></i></span>
+		                					</a>
+		                				</td>
+
+	                        		</tr>
+	                        	{% empty %}
+	                        		<tr><td colspan=8 >No contact found </td></tr>
+	                        	{% endfor %}
+	                        </tbody>
+                        </table>  
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="tb2">
+                        <table width="100%"  class="table table-bordered table-striped table-hover table-responsive">
+                            <thead>
+	                            <tr>
+	                                <th></th>
+	                                <th>First Name</th>
+	                                <th>Last Name</th>
+	                                <th>Email</th>
+	                                <th>Phone</th>
+	                                <th>Organization</th>
+	                                <th>Confirmed</th>
+	                                <th>Registered on</th>
+	                                <th>Action</th>
+	                            </tr>
+	                        </thead> 
+	                        <tbody>
+	                        	{% for person in clients %}
+	                        		<tr>
+	                        			<td>{{ forloop.counter }}</td>
+	                        			<td>{{ person.user.first_name|title }}</td>
+	                        			<td>{{ person.user.last_name|title }}</td>
+	                        			<td>{{ person.user.email }}</td>
+	                        			<td>{{ person.phone_no }}</td>
+	                        			<td>{{ person.organization|title }}</td>
+	                        			<td>{{ person.is_confirmed }}</td>
+	                        			<td>{{ person.date_created|date }}</td>
+	                        			<td>
+	                        				<a href="{% url 'yadel_admin:delete-content' person.pk 'UserAccount' %}" title="delete this client's account" id = "delete-client">
+		                						<span class="pull-right"><i class="glyphicon glyphicon-trash"></i></span>
+		                					</a>
+		                				</td>
+
+	                        		</tr>
+	                        	{% empty %}
+	                        		<tr><td colspan=8 >No contact found </td></tr>
+	                        	{% endfor %}
+	                        </tbody>            
+                        </table>
+                    </div>
+                    <!-- place history code here -->
+                    <div role="tabpanel" class="tab-pane" id="tb3">
+                        <table width="100%"  class="table table-bordered table-striped table-hover table-responsive">
+                        	<thead>
+	                            <tr>
+	                                <th></th>
+	                                
+	                                <th>Full Name</th>
+	                                <th>Email</th>
+	                                <th>Media House</th>
+	                                <th>Action</th>
+	                            </tr> 
+	                        </thead> 
+	                        <tbody>
+	                        	{% for person in media_contacts %}
+	                        		<tr>
+	                        			<td>{{ forloop.counter }}</td>
+	                        			<td>{{ person.person|title }}</td>
+	                        			<td>{{ person.contact_email }}</td>
+	                        			<td>{{ person.media }}</td>
+	                        			
+	                        			<td>
+	                        				<a href="{% url 'yadel_admin:delete-content' person.pk 'MediaContact' %}" title="delete media contact" id = "delete-media-contact">
+		                						<span class="pull-right"><i class="glyphicon glyphicon-trash"></i></span>
+		                					</a>
+		                				</td>
+
+	                        		</tr>
+	                        	{% empty %}
+	                        		<tr><td colspan=8 >No contact found </td></tr>
+	                        	{% endfor %}
+	                        </tbody>            
+                        </table>
+                    </div>
+                </div>
+      		</div>
+        </div> <!-- ends tab col-md-12 pane -->
+	</div>
+</div>
+{% endblock inner_content %}
+{% block latest_news %}{% endblock latest_news %}
+
+
+{% block scripts %}
+	<script>
+		$('body').on('click', '#delete-media-category #delete-staff #delete-client #delete-media-contact #delete-media-name', function(){
+			return confirm("Are you sure you want to delete this item?");
+		})
+	</script>
+{% endblock scripts %}
+
