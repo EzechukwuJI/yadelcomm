@@ -12,10 +12,10 @@
         <li><a href="{% url 'yadel_main:newsroom' %}">Newsroom</a></li>
         <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown">Services <b class="caret"></b></a>
           <ul class="dropdown-menu">
-            <li><a href="{% url 'yadel_main:services' 'content-writing' %}">Content Writing</a></li>
-            <li><a href="{% url 'yadel_main:services' 'press-release-syndication' %}">Press Release Syndication</a></li>
-            <li><a href="{% url 'yadel_main:services' 'media-relations-consulting' %}">Media Relations Consulting</a></li>
-            <li><a href="{% url 'yadel_main:services' 'general-media-services' %}">General Media Services</a></li>
+            <li><a href="{% url 'yadel_main:services' %}#content-writing">Content Writing</a></li>
+            <li><a href="{% url 'yadel_main:services' %}#press-release-syndication">Press Release Syndication</a></li>
+            <li><a href="{% url 'yadel_main:services' %}#media-relations-consulting">Media Relations Consulting</a></li>
+            <li><a href="{% url 'yadel_main:services' %}#general-media-services">General Media Services</a></li>
           </ul>
         </li>
         {% if user.is_superuser or user.is_staff %}

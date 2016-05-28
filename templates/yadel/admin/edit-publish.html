@@ -50,12 +50,13 @@
                                                     <small class="pull-right text-white"><span id="char-counter">[125</span>&nbsp; characters]</small>
                                                 </div>
                                                 <span class="pull-right">
-                                                    <strong>Category: </strong>{{post.press_material}}
-                                                     <input type="hidden" name="press_material" value={{ post.press_material }} />
+                                                    <strong>Category: </strong>{{post.press_material}}<br/>
+                                                    <strong>Person To quote: </strong>{{ post.person_to_quote|title }}<br/>
+                                                    <strong>Person's Position: </strong>{{ post.persons_position|title }}
+                                                    <input type="hidden" name="press_material" value={{ post.press_material }} />
                                                 </span>
                                             </p>
                                             <small>Posted By: {{post.posted_by|title }} on {{ post.date_posted }} </small> <br/>
-                                            
                                             <strong>Selected Media: </strong>
                                             {% for media in  post.id|get_post_media %} 
                                                 <code>{{ media }}</code> | 
@@ -72,21 +73,30 @@
                                         </div>
                                         <br/>
                                         <div class="row"> 
-                                            <textarea class="form-content text-justify" id= "id-post-content" name="post-content" style="height:400px; width:100%; padding:5px;"> {{ post.content}} 
+                                            <strong> Uploaded Document </strong><br/>
+                                            {% if post.pubdocument.document %}
+                                                <a href="{{ post.pubdocument.document.url }}" target="_blank" title="click to open document">
+                                                    {{ post.pubdocument.document }} <br/><br/>
+                                                </a>
+                                                {% else %} 
+                                                    No Document 
+                                            {% endif %}
+
+                                            <textarea class="form-content text-justify" id= "id-post-content" name="post-content" style="height:300px; width:100%; padding:5px;"> {{ post.content}} 
                                             </textarea>
                                             <div class="row">
                                                 <br/>
-                                                <strong> Selecet Media contacts to send this publication to </strong>
+                                                <strong> Select Media contacts to send this publication to </strong>
                                                 <select multiple="multiple" class="form-control" name="media_contact">
                                                     {% for key, value in contact_dict.items %}
                                                         {% for contact in value %}
-                                                            <option value = {{ contact }} > <strong>{{ key|title }}</strong>&nbsp;| {{ contact|capfirst }} </option>
+                                                            <option value = "{{ contact }}" > <strong>{{ key|title }}</strong>&nbsp;| {{ contact|capfirst }} </option>
                                                         {% endfor %}
                                                     {% endfor %}
                                                 </select>
                                             </div>
-                                            <input type="checkbox" name="is_edited" id="is-edited" /> Post is Edited.
-                                            <input type="checkbox" name="post_online" id="post_online" /> Post Online.
+                                            <!-- <input type="checkbox" name="is_edited" id="is-edited" /> Post is Edited. -->
+                                            <!-- <input type="checkbox" name="post_online" id="post_online" /> Post Online. -->
                                         </div>
                                     {% elif action == "update" %}
                                         <div class="row" id = "media_urls">
@@ -126,7 +136,6 @@
 {% block scripts %}
     <script>
         $('body').on('click', '#id_change_title', function(){
-            // alert('we are here');
             $('#new_title_div').removeClass('hidden');
         })
     </script>

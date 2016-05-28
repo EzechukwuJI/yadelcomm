@@ -1,5 +1,6 @@
 import random, datetime
 from yadel_main.models import *
+# from yadel_admin.models import MediaCategory, MediaNames
 from yadel_main import models
 from django.core.paginator import Paginator,EmptyPage, PageNotAnInteger
 from django.core.mail import EmailMessage, EmailMultiAlternatives
@@ -12,7 +13,7 @@ from yadelcommunications.settings import DOMAIN_NAME, DEFAULT_FROM_EMAIL
 def get_reg_code(useremail):
     code_list = []
     alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    for counter in range(10):
+    for counter in range(15):
         code_list.append(random.choice(alpha.lower()))
         code_list.append(random.choice(alpha[::-1]))
         code_list.append(random.choice(useremail.split('@')[0]))
@@ -23,6 +24,7 @@ def get_reg_code(useremail):
 
 def get_content_tuple(objectmodel, **kwargs):
     content_tuple = ()
+    # objectmodel = getattr(models, object_model_string)
     if objectmodel == MediaCategory:
         for item in objectmodel.objects.all():
             item_tuple = ((item.media_type, item.media_type),) 
@@ -58,7 +60,9 @@ def publish_article(request, action, article):
     rp = request.POST
     if action == "send-to-media":
         print "preparing to send to media..."
+        print "media contact ", rp.getlist('media_contact')
         media_contact_emails = [val.split('-')[1].encode('utf-8') for val in rp.getlist('media_contact')]
+        # media_contact_emails = [val[val.rindex('-') + 1:] for val in rp.getlist('media_contact')]
         print "selected media contact ", media_contact_emails
         if rp['new_post_title'] != "":
             article.title   =   rp['new_post_title'] # overwrite existing title
@@ -117,8 +121,13 @@ def publish_article(request, action, article):
         if article.pictures:
             attach_image    =   article.pictures
             article_mail.attach(attach_image.name, attach_image.read())
-        else:
-            print "No picture to attach..."
+
+        # if article.pubdocument.document:
+        #     attach_doc = article.pubdocument.document
+        #     article_mail.attach(attach_doc.name, attach_doc.read())
+
+        # else:
+        #     print "No picture to attach..."
         # article_mail.send(fail_silently = False)
         article.save()
         # return redirect(reverse('yadel_admin:admin-dashboard'))

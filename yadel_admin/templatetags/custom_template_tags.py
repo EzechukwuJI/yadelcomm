@@ -25,3 +25,16 @@ def get_post_url(post_id):
 	return url
 
 
+@register.filter(name = 'get_all_post_url')
+def get_all_post_url(post_id):
+	cleaned_url = []
+	# post = Publication.objects.get(id = post_id)
+	post = get_object_or_404(Publication, id = post_id)
+	url_list =  post.redirect_url.strip('[]').encode('utf-8').split(',')
+	print len(url_list)
+	for url in url_list:
+
+		if url.startswith("www"):
+			url = "http://" + url
+		cleaned_url.append(url)
+	return cleaned_url

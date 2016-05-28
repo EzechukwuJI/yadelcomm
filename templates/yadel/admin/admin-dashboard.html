@@ -48,6 +48,7 @@
                                             <th style="text-align: center">POSTED BY</th>
                                             <th style="text-align: center">MEDIA</th>
                                             <th style="text-align: center">EXTRACT</th>
+                                            <th style="text-align: center" width="100px">DOCUMENT</th>
                                             <th style="text-align: center">PUBLISH ONLINE</th>
                                             <th style="text-align: center">DATE POSTED</th>
                                             <th style="text-align: center">STATUS</th>
@@ -61,6 +62,13 @@
                                                     <td>{{ item.posted_by }}</td>
                                                     <td>{% for media in  item.id|get_post_media %} {{ media }} {% endfor %}</td>
                                                     <td>{{ item.content|truncatewords:15 }}</td>
+                                                    <td>{% if item.pubdocument.document %}
+                                                        <a href="{{ item.pubdocument.document.url }}" target="_self" title="click to open document">
+                                                            Document link
+                                                        </a>
+                                                        {% else %} 
+                                                        No Document {% endif %}
+                                                    </td>
                                                     <td>{% if item.publish_online %} Yes {% else %} No {% endif %}</td>
                                                     <td>{{ item.date_posted }}</td>
                                                     <td class = {{ item.status }} >{{ item.status|upper }}</td>

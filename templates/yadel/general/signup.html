@@ -32,7 +32,7 @@
 							<p class="text-center text-muted">If you are already registered, <a href="{% url 'yadel_main:login' %}">Login</a> here </p>
 							<hr>
 
-							<form action="{% url 'yadel_main:sign_up' %}" method = "POST" onsubmit='return check_T_n_C()'>
+							<form action="{% url 'yadel_main:sign_up' %}" method = "POST" >
 								{% csrf_token %}
 								<div class="top-margin">
 									<label>Title<span class="text-danger">*</span></label>
@@ -78,7 +78,7 @@
 									</div>
 									<div class="col-sm-6">
 										<label>Confirm Password <span class="text-danger">*</span></label>
-										<input type="password" class="form-control" name="confirm-password">
+										<input type="password" class="form-control" id="re-enter_new_password" name="confirm-password">
 									</div>
 								</div>
 
@@ -92,7 +92,7 @@
 										</label>                        
 									</div>
 									<div class="col-lg-4 text-right">
-										<button class="btn btn-action" type="submit">Register</button>
+										<input  type="submit" class="btn btn-action" value="Register" onclick = 'return validate_password()' />
 									</div>
 								</div>
 							</form>
@@ -108,24 +108,29 @@
 	</div>	<!-- /container -->
 	
 {% endblock inner_content %}
+
+{% block scripts %}
 <script>
 	function check_T_n_C(){
-		alert("we are here");
 		$this = $('#check_tandc');
 		if !($this.checked()){
 			alert("Accept terms and conditions");
 		}
 	}
+	</script>
 
-
-
-// $('body').on('submit', 'sign_up_form', function(){
-// 	alert("we are here");
-// 	$('#check_tandc').checked();
-// })
+<script>
+    function validate_password(){
+        var confirm_field = document.getElementById('re-enter_new_password');
+        var new_password = document.getElementById('id_password');
+        if (confirm_field.value != new_password.value){
+            alert('The password you entered did not match.');
+            return false;
+        } 
+    }   
 
 </script>
-
+{% endblock scripts %}
 
 
 

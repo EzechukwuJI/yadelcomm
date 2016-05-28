@@ -1,6 +1,7 @@
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.contrib.auth.models import User 
+# from yadel_main.helpers import get_content_tuple
 
 
 
@@ -85,6 +86,9 @@ class UserAccount(models.Model):
         return '%s '  %(self.user)
 
 
+# MEDIA_CATEGORY     =       yadel_main.helpers.get_content_tuple('MediaCategory')
+# MEDIA_HOUSES       =       yadel_main.helpers.get_content_tuple('MediaNames')
+# print "media category ", MEDIA_CATEGORY, MEDIA_HOUSES
 
 class Publication(models.Model):
     posted_by                       =              models.ForeignKey(User)
@@ -94,10 +98,14 @@ class Publication(models.Model):
     date_posted                     =              models.DateTimeField(auto_now_add = True)
     # press_material                =              models.ForeignKey(MediaCategory)
     # media                         =              models.ForeignKey(MediaNames)
+    # press_material                  =              models.CharField(max_length = 25, choices = MEDIA_CATEGORY)
     press_material                  =              models.CharField(max_length = 125)
+    # media                           =              models.CharField(max_length = 25, choices = MEDIA_HOUSES)
     media                           =              models.CharField(max_length = 125)
-    content                         =              models.TextField(max_length = 3000)
-    pictures                        =              models.FileField(upload_to ='media/')
+    content                         =              models.TextField(max_length = 3000, null = True, blank = True)
+    person_to_quote                 =              models.CharField(max_length = 125, null = True, blank = True)
+    persons_position                =              models.CharField(max_length = 125, null = True, blank = True)
+    pictures                        =              models.FileField(upload_to ='media/', null = True, blank = True)
     # document                        =              models.FileField(upload_to ='publication/%Y-%M-%D', null=True, blank = True)
     deleted                         =              models.BooleanField(default = False)
     publish_online                  =              models.BooleanField("Do you also want online publication of the chosen media? ", default = False)
@@ -113,6 +121,14 @@ class Publication(models.Model):
     def __unicode__(self):
         return '%s' %(self.title)
     
+
+
+class PubDocument(models.Model):
+  publication                     =              models.OneToOneField(Publication, verbose_name="Related publication", null = True, blank = True)
+  document                        =              models.FileField(upload_to ='publication/%Y-%M-%D', null=True, blank = True)
+
+  def __unicode__(self):
+    return self.publication.title
 
 
 

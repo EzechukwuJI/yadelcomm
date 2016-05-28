@@ -13,10 +13,10 @@
   				</header>
           <p class = "text-justify"> 
             Yadel Communications is a media services company.  Our services include: Public relations, advertising and general media services. We leverage our contacts and deep understanding of the African media landscape to help our clients, who are mostly start-ups, to reach both the online and offline media. At the moment, we cover Africa’s economic power houses: Nigeria, Ghana and Kenya. Our services extends to content writing, media buying and placement, including a strategic public relations services easily affordable for typical start-up’s to meet marketing needs. 
-            Over the past three years we have worked and implemented successful PR campaigns for companies such as VOD firm, Aflix, online retailer, Jumia.com, online drinks retailer, Drinks.ng, and an engineering firm, Tempohousing Nigeria.
+            <!-- Over the past three years we have worked and implemented successful PR campaigns for companies such as VOD firm, Aflix, online retailer, Jumia.com, online drinks retailer, Drinks.ng, and an engineering firm, Tempohousing Nigeria.
 
             We have also undertaken offline media relations consultancy for Hotels.ng and Printivo.com during their 2015 press cycle and produced incredible results. 
-            At the moment, we provide content writing and placement services for the Concept Group, which is the parent company of Concept Nova and Rosabon Financial Services. We also currently manage offline media relations services for S&T Media and venture capital firm, EchoVC and Partners.
+            At the moment, we provide content writing and placement services for the Concept Group, which is the parent company of Concept Nova and Rosabon Financial Services. We also currently manage offline media relations services for S&T Media and venture capital firm, EchoVC and Partners. -->
           </p>
         </div>
       </div>       
@@ -33,36 +33,47 @@
             <h3 class="page-title">What We Do</h3>
           </header> 
         </div>
-      </div>       
+      </div> 
+
       <div class="row">
-        <div class="col-xs-18 col-sm-6 col-md-4">
+        <div class="col-xs-18 col-sm-6 col-md-3">
           <div class="thumbnail">
-            <img src="{% static 'images/img1.jpg' %}" alt="yadel communications">
-              <div class="caption">
+            <img src="{% static 'images/content writing.jpg' %}" alt="yadel communications">
+              <div class="caption text-center">
                 <h4>Content Writing</h4>
                 <p>intro Caption</p>  
             </div>
           </div>
-        </div> 
-        <div class="col-xs-18 col-sm-6 col-md-4">
+        </div>
+        <div class="col-xs-18 col-sm-6 col-md-3">
           <div class="thumbnail">
-            <img src="{% static 'images/img3.jpg' %}" alt="yadel communications">
-              <div class="caption">
+            <img src="{% static 'images/bg_header.jpg' %}" alt="yadel communications">
+              <div class="caption text-center">
+                <h4>General Media Services</h4>
+                <p>intro Caption</p>  
+            </div>
+          </div>
+        </div> 
+        <div class="col-xs-18 col-sm-6 col-md-3">
+          <div class="thumbnail">
+            <img src="{% static 'images/press release.jpeg' %}" alt="yadel communications">
+              <div class="caption text-center">
                 <h4>Press Release Syndication</h4>
                 <p>intro caption</p> 
             </div>
           </div>
         </div>
-        <div class="col-xs-18 col-sm-6 col-md-4">
+        <div class="col-xs-18 col-sm-6 col-md-3">
           <div class="thumbnail">
             <img src="{% static 'images/img4.jpg' %}" alt="yadel communications">
-              <div class="caption">
+              <div class="caption text-center">
                 <h4>Media Relations Consulting</h4>
                 <p>intro caption</p> 
             </div>
           </div>
         </div>
       </div><!-- End row -->
+
     </div><!-- End container -->
 
 
@@ -78,38 +89,38 @@
       <div class="row">
 
         <div class="col-sm-2" role="clients">
-          <div class="thumbnail">
-            <img src="{% static 'images/img3.jpg' %}" alt="yadel communications">
+          <div class="thumbnail1">
+            <img src="{% static 'clients/echovc_logo.jpg' %}" alt="yadel communications">
+          </div>
+        </div> <!-- end client -->
+
+        <!-- <div class="col-sm-2" role="clients">
+          <div class="thumbnail1">
+            <img src="{% static 'clients/jumia.jpeg' %}" alt="yadel communications">
+          </div>
+        </div> --> <!-- end client -->
+
+        <div class="col-sm-2" role="clients">
+          <div class="thumbnail1">
+            <img src="{% static 'clients/printivologo.png' %}" alt="yadel communications">
           </div>
         </div> <!-- end client -->
 
         <div class="col-sm-2" role="clients">
-          <div class="thumbnail">
-            <img src="{% static 'images/img3.jpg' %}" alt="yadel communications">
+          <div class="thumbnail1">
+            <img src="{% static 'clients/hotelsng.png' %}" alt="yadel communications">
           </div>
         </div> <!-- end client -->
 
         <div class="col-sm-2" role="clients">
-          <div class="thumbnail">
-            <img src="{% static 'images/img3.jpg' %}" alt="yadel communications">
+          <div class="thumbnail1">
+            <img src="{% static 'clients/drinksnglogo.png' %}" alt="yadel communications">
           </div>
         </div> <!-- end client -->
 
         <div class="col-sm-2" role="clients">
-          <div class="thumbnail">
-            <img src="{% static 'images/img3.jpg' %}" alt="yadel communications">
-          </div>
-        </div> <!-- end client -->
-
-        <div class="col-sm-2" role="clients">
-          <div class="thumbnail">
-            <img src="{% static 'images/img3.jpg' %}" alt="yadel communications">
-          </div>
-        </div> <!-- end client -->
-
-        <div class="col-sm-2" role="clients">
-          <div class="thumbnail">
-            <img src="{% static 'images/img3.jpg' %}" alt="yadel communications">
+          <div class="thumbnail1">
+            <img src="{% static 'clients/tempohousinglogo.jpg' %}" alt="yadel communications">
           </div>
         </div> <!-- end client -->
 
@@ -117,7 +128,7 @@
     </div><!-- End container -->
     <div class="container">
       <div class="row">
-        <br/>
+        <br/><br/>
           <strong class="pull-right"> Request our services? Contact us 
             <a href="{% url 'yadel_main:contact_us' %}">
                 <span class="btn btn-default">Here</span>

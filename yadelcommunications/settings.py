@@ -16,7 +16,7 @@ from django.conf import global_settings
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 TEMPLATE_DIRS =[os.path.join(BASE_DIR, 'templates')]
 STATICFILES_DIRS = (os.path.join(BASE_DIR,'static'),)
-DOMAIN_NAME  =  "www.yadelcommunications.com"
+DOMAIN_NAME  =  "127.0.0.1:8000"
 
 TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + [
     "django.core.context_processors.request"
@@ -60,14 +60,16 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
+
+FILE_UPLOAD_HANDLERS = [
+    "django.core.files.uploadhandler.MemoryFileUploadHandler",
+    "django.core.files.uploadhandler.TemporaryFileUploadHandler"
+    ]
+
 ROOT_URLCONF = 'yadelcommunications.urls'
-
 WSGI_APPLICATION = 'yadelcommunications.wsgi.application'
-
-
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',

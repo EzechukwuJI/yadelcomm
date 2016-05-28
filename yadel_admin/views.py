@@ -30,6 +30,10 @@ def adminDashboardView(request, status):
 	context = {}
 	submissions = paginate_list(request, Publication.objects.filter(deleted = False).order_by('status','-date_posted'), 10)
 	context['submissions'] = submissions
+	# for article in submissions:
+	# 	if article.pubdocument:
+	# 		print "article document ", article.pubdocument
+
 	context['status']  =  status
 	if request.method == "POST":
 		status = request.POST['search-by-status']
@@ -77,9 +81,11 @@ def publishArticle(request, **kwargs):
 	
 
 
+
+
+
 def contentManager(request):
 	context = {}
-	
 	if request.method == "POST":
 		rp = request.POST
 		model = rp['object_model']
@@ -92,7 +98,7 @@ def contentManager(request):
 			content = object_model.objects.create(news_content = rp['latest_news'], date_added = datetime.datetime.now())
 		elif model == "MediaContact":
 			media = MediaNames.objects.get(pk = rp['media_house'])
-			content = object_model.objects.create(media=media, person = rp['media_contact'],contact_email = rp['media_contact_email'], date_added = datetime.datetime.now())
+			content = object_model.objects.create(media=media, person = rp['media_contact'].strip(),contact_email = rp['media_contact_email'], date_added = datetime.datetime.now())
 		if content:
 			messages.info(request, "Content successfully created.")
 		# print "object model ", object_model
@@ -101,6 +107,8 @@ def contentManager(request):
 	context['media_contacts']    =  	 MediaContact.objects.all()
 	context['clients']           =       UserAccount.objects.filter(user__is_staff = False, user__is_active = True)
 	context['members_of_staff']  =       UserAccount.objects.filter(user__is_staff = True, user__is_active = True)
+	staff = UserAccount.objects.filter(user__is_staff = True, user__is_active = True)
+	print "all staff ", staff
 	return render(request, 'yadel/admin/content-manager.html', context)
 
 

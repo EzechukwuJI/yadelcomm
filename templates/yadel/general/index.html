@@ -2,3 +2,67 @@
 {% load staticfiles %}
 
 {% block title %}Home{% endblock title %}
+
+{% block inner_content %}
+	{{ block.super }}
+
+	<div class="container serviceslist">
+      <div class="row">
+        <div class="col-md-12">
+          <header class="page-header">
+            <h3 class="page-title">Our Clients</h3>
+          </header> 
+        </div>
+      </div> 
+
+      <div class="row">
+
+        <div class="col-sm-2" role="clients">
+          <div class="thumbnail1">
+            <img src="{% static 'clients/echovc_logo.jpg' %}" alt="yadel communications">
+          </div>
+        </div> <!-- end client -->
+
+        <!-- <div class="col-sm-2" role="clients">
+          <div class="thumbnail1">
+            <img src="{% static 'clients/jumia.jpeg' %}" alt="yadel communications">
+          </div>
+        </div>  --><!-- end client -->
+
+        <div class="col-sm-2" role="clients">
+          <div class="thumbnail1">
+            <img src="{% static 'clients/printivologo.png' %}" alt="yadel communications">
+          </div>
+        </div> <!-- end client -->
+
+        <div class="col-sm-2" role="clients">
+          <div class="thumbnail1">
+            <img src="{% static 'clients/hotelsng.png' %}" alt="yadel communications">
+          </div>
+        </div> <!-- end client -->
+
+        <div class="col-sm-2" role="clients">
+          <div class="thumbnail1">
+            <img src="{% static 'clients/drinksnglogo.png' %}" alt="yadel communications">
+          </div>
+        </div> <!-- end client -->
+
+        <div class="col-sm-2" role="clients">
+          <div class="thumbnail1">
+            <img src="{% static 'clients/tempohousinglogo.jpg' %}" alt="yadel communications">
+          </div>
+        </div> <!-- end client -->
+
+      </div>
+    </div><!-- End container -->
+    <div class="container">
+      <div class="row">
+        <br/><br/>
+          <strong class="pull-right"> Request our services?  
+            <a href="{% url 'yadel_main:contact_us' %}">
+                <span class="btn btn-default">Contact us</span>
+            </a>
+          </strong>
+      </div>
+    </div>
+{% endblock inner_content %}

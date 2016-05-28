@@ -20,4 +20,5 @@ admin.site.register(MediaNames)
 admin.site.register(MediaContact)
 admin.site.register(ClientFeedback)
 admin.site.register(LatestNews)
+admin.site.register(PubDocument)
 

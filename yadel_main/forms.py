@@ -56,23 +56,37 @@ class UserAccountForm(forms.ModelForm):
 
 
 
+# MEDIA_CATEGORY     =       yadel_main.helpers.
+# MEDIA_HOUSES       =       yadel_main.helpers.
 
 class PublicationForm(forms.ModelForm):
+	
+
 	title              =       forms.CharField(max_length = 125, help_text = "",widget=forms.TextInput(attrs={'class' : 'form-control', 'placeholder': 'Enter a title for you article','required':'required'}))
 	press_material     =       forms.ChoiceField(widget=forms.Select(attrs={'class':'form-control', 'required':True}), choices = get_content_tuple(MediaCategory))
+	person_to_quote    =       forms.CharField(max_length = 125, help_text = "",widget=forms.TextInput(attrs={'class' : 'form-control', 'placeholder': 'Name to be mentioned in publication'}))
+	persons_position   =       forms.CharField(max_length = 125, help_text = "",widget=forms.TextInput(attrs={'class' : 'form-control', 'placeholder': "person's position"}))
 	media              =       forms.MultipleChoiceField(widget=forms.SelectMultiple(attrs={'class':'form-control', 'required':True}), choices = get_content_tuple(MediaNames))
 	pictures           =       forms.ImageField(help_text="", widget=forms.FileInput(attrs={'style':'font-size:15px;','multiple':'multiple'}))
-	document           =       forms.FileField(help_text="", widget=forms.FileInput(attrs={'style':'font-size:15px;'}))
+	# document           =       forms.FileField(help_text="", widget=forms.FileInput(attrs={'style':'font-size:15px;'}))
 	content            =       forms.CharField(max_length = 3000, help_text = "", widget=forms.Textarea
-		(attrs={'class':'form-control', 'required':True, 'rows': 10, 'placeholder': 'You can type or  copy and paste your article here. '}))
+		(attrs={'class':'form-control', 'rows': 10, 'placeholder': 'You can type or  copy and paste your article here. '}))
 	# pictures           =       forms.ImageField(help_text="", widget=forms.FileInput(attrs={'class':'form-control', 'id':'proj_pic','style':'font-size:15px;'}))
 	
 
 
 	class Meta:
 		model     =     Publication
-		fields    =     ('title','press_material', 'media','content', 'pictures', 'publish_online')
+		fields    =     ('title','press_material', 'media','content', 'pictures', 'publish_online','person_to_quote','persons_position')
 
+
+
+class DocumentUploadForm(forms.ModelForm):
+	document           =       forms.FileField(help_text="", widget=forms.FileInput(attrs={'style':'font-size:15px;'}))
+
+	class Meta:
+		model 		   = 	   PubDocument
+		fields 		   = 	   ('document',)
 
 
 

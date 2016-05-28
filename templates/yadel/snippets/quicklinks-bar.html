@@ -3,7 +3,7 @@
         <div class="panel-heading">
             Quick Links
         </div>
-        <br/>
+        <!-- <br/> -->
         <div class="panel-body">
             <dd class="quick-links">
                 {% for item in articles %}
@@ -11,59 +11,12 @@
                         <a href="{% url 'yadel_main:news-details' item.pk item.title_slug %}"> {{ item.title|title }} </a>
                     </li>
                 {% endfor %}
-                <!-- <li class="link-item">
-                    <a href="#"> Today, growth in different media has produced the need for tailored and specialised </a>
-                </li>
-                <li class="link-item">
-                    <a href="#"> Today, growth in different media has produced the need for tailored and specialised </a>
-                </li>
-                <li class="link-item">
-                    <a href="#"> Today, growth in different media has produced the need for tailored and specialised </a>
-                </li> -->
-                
             </dd>
-            
         </div>
     </div>
-    <p> &nbsp; </p>
-    <div class="panel panel-primary">
-        <div class="panel-heading">
-            Posts on twitter
-        </div>
+    <!-- <p> &nbsp; </p> -->
+    <div class="panel panel-primary"> 
         <br/>
-        <div class="panel-body">
-            <dd class="quick-links">
-                <li class="link-item">
-                    <a href="#"> post 1 </a>
-                </li>
-                <li class="link-item">
-                    <a href="#"> post 2 </a>
-                </li>
-                <li class="link-item">
-                    <a href="#"> post 3</a>
-                </li>
-                <li class="link-item">
-                    <a href="#"> post 4 </a>
-                </li>
-                <li class="link-item">
-                    <a href="#"> post 2 </a>
-                </li>
-                <li class="link-item">
-                    <a href="#"> post 3</a>
-                </li>
-                <li class="link-item">
-                    <a href="#"> post 4 </a>
-                </li>
-                <li class="link-item">
-                    <a href="#"> post 2 </a>
-                </li>
-                <li class="link-item">
-                    <a href="#"> post 3</a>
-                </li>
-                <li class="link-item">
-                    <a href="#"> post 4 </a>
-                </li>
-                
-            </dd>
-        </div>
+        <a class="twitter-timeline" href="https://twitter.com/Yadelmedia" data-widget-id="735866204297043968">Tweets by @Yadelmedia</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
     </div>

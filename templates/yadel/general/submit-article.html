@@ -26,9 +26,9 @@
                                <div >
                                 {% if messages %}
                                     {% for message in messages %}
-                                        <strong class= "text-{% if message.tags %} {{message.tags}} {% endif %}">
+                                        <blockquote class= "{% if message.tags %} text-{{message.tags}} bg-{{message.tags}} {% endif %}">
                                             {{ message }}
-                                        </strong>
+                                        </blockquote>
                                     {% endfor %}
                                 {% endif %}
                                     <form enctype="multipart/form-data" method="post" action ="{% url 'yadel_main:create-article' %}">
@@ -40,19 +40,31 @@
 
                                         <div class="top-margin">
                                             <label>Press Material</label>
-                                            {{ article_form.press_material }}
+                                            <select name = 'press_material' class="form-control">
+                                                {% for item in media_categories %}
+                                                    <option value="{{ item.media_type }}">{{ item.media_type }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <!-- {{ article_form.press_material }} -->
                                         </div>
 
                                         <div class="top-margin">
                                             <label>Media</label>
-                                            {{ article_form.media }}
+                                            <select name = 'media' class="form-control" multiple>
+                                                {% for item in media_names %}
+                                                    <option value="{{ item.media_name }}">{{ item.media_name }}</option>
+                                                {% endfor %}
+                                            </select>
+                                            <!-- {{ article_form.media }} -->
                                             <small class="text-danger"> press hold the shift key to select multiple media</small>
                                         </div>
 
-                                       <!--  <div class="top-margin"> 
-                                            Upload article (<small class="text-danger"> *.Doc, *.Docx of *.pdf only</small>)<br/> 
-                                            
-                                        </div> -->
+                                        <div class="top-margin"> 
+                                            Upload article (<small class="text-danger"> *.doc, *.docx or *.pdf only</small>)<br/> 
+                                        
+                                            {{ doc_form.document }}
+                                        </div>
+                                        <!-- </div> -->
                                         
                                         <!-- <strong> Or </strong> -->
                                         <div class="top-margin">
@@ -70,18 +82,29 @@
                                             {{ article_form.publish_online }}
                                             <label for="id_publish_online">Do yo also want online publication of the chosen media?</label>
                                         </div>
+                                        <div class="top-margin">
+                                            <label>Name of person to quote in article</label>
+                                            {{ article_form.person_to_quote }}
+                                            
+                                        </div>
+                                        <div class="top-margin">
+                                            <label>Person's position in the organization</label>
+                                            {{ article_form.persons_position }}
+                                            
+                                        </div>
+
                                         <br/>
                                         <div class="row">
-                                            <input type = "submit" name="submit" value="submit article" class="btn btn-primary pull-right"/>
+                                            <input type = "submit" name="submit" value="submit article" class="btn btn-primary pull-right" onclick = 'return validate_upload()'/>
                                         </div>
                                     </form>
                                </div>
                             </div>
                             <div class="col-md-4" role = "right panel"> 
-                               {% include 'yadel/snippets/quicklinks-bar.html' %}
+                               {% include 'yadel/snippets/quicklinks-bar.html' with articles=articles %}
                             </div>
                         </div>
-                    </div>
+                    </div>  
 
                 </div>
             </section>
@@ -89,3 +112,36 @@
 	</div>	<!-- /container -->
 	{% endwith %}
 {% endblock inner_content %}
+
+{% block scripts %}
+    <script>
+        function validate_upload(){
+            allowed_doc_ext = ['pdf','doc','docx']
+            allowed_img_ext = ['jpg','jpeg','png','PNG']
+
+            var image_field = document.getElementById('id_pictures').value.split(".");
+            var doc_field   = document.getElementById('id_document').value.split(".");
+
+            var image_ext = image_field[image_field.length -1]
+            var doc_ext   = doc_field[image_field.length -1]
+
+            if (allowed_doc_ext.indexOf(doc_ext) > -1){ 
+                return true;
+            } 
+            else {
+                alert("select a valid image type. *." + file_ext + " file is not a valid image format");
+                return false;
+            }
+        }
+    </script>
+
+{% endblock scripts %}
+
+
+
+
+
+
+
+
+
