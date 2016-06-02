@@ -11,7 +11,7 @@ PUB_STATUS = (
   ('published',  'published'),
   ('processing', 'processing'),
   ('rejected', 'rejected'),
-              )
+  )
 
 
 
@@ -53,16 +53,6 @@ class MediaContact(models.Model):
     return '%s %s %s %s %s' %(self.media.media_name,"|", self.person, "|", self.contact_email)
 
 
-
-# class PressMaterial(models.Model):
-#   media_type                        =         models.CharField(max_length = 150)
-#   date_added                        =         models.DateTimeField(auto_now_add = True)
-
-#   def __unicode(self):
-#     return '%s' %(self.media_type)
-
-
-
 class MediaCategory(models.Model):
   media_type                        =         models.CharField(max_length = 150)
   date_added                        =         models.DateTimeField(auto_now_add = True)
@@ -79,16 +69,12 @@ class UserAccount(models.Model):
     organization                     =         models.CharField(max_length  =  100, null = True, blank = True)
     date_created                     =         models.DateTimeField(auto_now_add = True)
     is_confirmed                     =         models.BooleanField(default = False)
-    registration_code                =         models.CharField(max_length = 25)
+    registration_code                =         models.CharField(max_length = 50)
 
 
     def __unicode__(self):
         return '%s '  %(self.user)
 
-
-# MEDIA_CATEGORY     =       yadel_main.helpers.get_content_tuple('MediaCategory')
-# MEDIA_HOUSES       =       yadel_main.helpers.get_content_tuple('MediaNames')
-# print "media category ", MEDIA_CATEGORY, MEDIA_HOUSES
 
 class Publication(models.Model):
     posted_by                       =              models.ForeignKey(User)

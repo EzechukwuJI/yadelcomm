@@ -13,6 +13,13 @@ import os
 from django.conf import global_settings
 
 
+
+def get_key():
+    content = open('key-chain.txt')
+    key = content.read()
+    return key
+
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 TEMPLATE_DIRS =[os.path.join(BASE_DIR, 'templates')]
 STATICFILES_DIRS = (os.path.join(BASE_DIR,'static'),)
@@ -96,14 +103,24 @@ USE_TZ = True
 
 
 # Email settings
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_USE_TLS = True
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_HOST_USER = 'jamesezechukwu@gmail.com'
+# #Must generate specific password for your app in [gmail settings][1]
+# EMAIL_HOST_PASSWORD = '12@fbjay'
+# EMAIL_PORT = 587
+# #This did the trick
+# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'jamesezechukwu@gmail.com'
+EMAIL_HOST = 'smtp.zoho.com'
+EMAIL_HOST_USER = 'info@yadelcommunications.com'
 #Must generate specific password for your app in [gmail settings][1]
-EMAIL_HOST_PASSWORD = '12@fbjay'
+EMAIL_HOST_PASSWORD = get_key()
 EMAIL_PORT = 587
 #This did the trick
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

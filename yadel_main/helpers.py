@@ -16,7 +16,9 @@ def get_reg_code(useremail):
     for counter in range(15):
         code_list.append(random.choice(alpha.lower()))
         code_list.append(random.choice(alpha[::-1]))
-        code_list.append(random.choice(useremail.split('@')[0]))
+        code_list.append(random.choice(alpha.lower()))
+        # code_list.append(random.choice(alpha[::-1]))
+        # code_list.append(random.choice(useremail.split('@')[0].replace(".","")))
     return "".join(code_list)
 
 
@@ -37,6 +39,11 @@ def get_content_tuple(objectmodel, **kwargs):
     return content_tuple
 
 
+def get_key():
+    content = open('key-chain.txt')
+    key = content.read()
+    print "key ", key
+    return key
 
 def paginate_list(request, objects_list, num_per_page):
     paginator   =   Paginator(objects_list, num_per_page) # show number of jobs per page
@@ -54,15 +61,13 @@ def paginate_list(request, objects_list, num_per_page):
 
 
 
-def publish_article(request, action, article):
-    # action   =   rp['post_action']  
+def publish_article(request, action, article): 
     article_title = ""
     rp = request.POST
     if action == "send-to-media":
         print "preparing to send to media..."
         print "media contact ", rp.getlist('media_contact')
         media_contact_emails = [val.split('-')[1].encode('utf-8') for val in rp.getlist('media_contact')]
-        # media_contact_emails = [val[val.rindex('-') + 1:] for val in rp.getlist('media_contact')]
         print "selected media contact ", media_contact_emails
         if rp['new_post_title'] != "":
             article.title   =   rp['new_post_title'] # overwrite existing title
@@ -77,7 +82,7 @@ def publish_article(request, action, article):
         # send post to media jounalists emails
         subject                  =      'Publication submission from Yadel communications'
         content                  =       article_heading + category + text_body
-        sender                   =      'editor@yadelcommunications.com'
+        sender                   =       DEFAULT_FROM_EMAIL
         recipient_list           =       media_contact_emails
         headers                  =       {}
         # try:
@@ -87,11 +92,9 @@ def publish_article(request, action, article):
         if article.pictures:
             attach_image    =   article.pictures
             article_mail.attach(attach_image.name, attach_image.read())
-        else:
-            print "No picture to attach..."
-        # article_mail.send(fail_silently = False)
+        
+        article_mail.send()
         article.save()
-        # return redirect(reverse('yadel_admin:admin-dashboard'))
     elif action == "update":
         clients_email = article.posted_by.email
         url_list  =  rp.getlist('post_url[]')
@@ -101,7 +104,7 @@ def publish_article(request, action, article):
         article.published_by = request.user
 
         # send notification to client
-        internal_post_link = DOMAIN_NAME + "news/" + str(article.pk) + "/" + article.title_slug
+        internal_post_link = DOMAIN_NAME + "/news/" + str(article.pk) + "/" + article.title_slug
         message  = "Hello " + article.posted_by.first_name 
         message += "<br/><br/> We are happy to inform you that your article has been published on the media platform(s) you selected."
         message += "<br/> The links to the publication are listed below. <br/><br/>" 
@@ -109,7 +112,6 @@ def publish_article(request, action, article):
             message += link + "<br/>"
         message += "You can also view these links by logging into your account on &nbsp; " + DOMAIN_NAME
         message += "<br/> or by clicking the link below. &nbsp; <br/><br/>" + internal_post_link
-
         subject                  =      "[Yadelcommunications] Your article has been published."
         content                  =       message
         sender                   =       DEFAULT_FROM_EMAIL
@@ -121,62 +123,6 @@ def publish_article(request, action, article):
         if article.pictures:
             attach_image    =   article.pictures
             article_mail.attach(attach_image.name, attach_image.read())
-
-        # if article.pubdocument.document:
-        #     attach_doc = article.pubdocument.document
-        #     article_mail.attach(attach_doc.name, attach_doc.read())
-
-        # else:
-        #     print "No picture to attach..."
-        # article_mail.send(fail_silently = False)
         article.save()
-        # return redirect(reverse('yadel_admin:admin-dashboard'))
         
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        

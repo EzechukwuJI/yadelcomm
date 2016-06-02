@@ -11,7 +11,7 @@ from django.contrib import messages
 
 from yadel_main.models import UserAccount, MediaCategory, MediaNames, Publication, ClientFeedback, LatestNews, PubDocument
 from yadel_main.forms import LoginForm, UserAccountForm,PublicationForm,DocumentUploadForm
-from yadel_main.helpers import get_reg_code, paginate_list
+from yadel_main.helpers import get_reg_code, paginate_list, get_key
 from yadelcommunications.settings import DOMAIN_NAME
 
 # Create your views here.
@@ -19,6 +19,7 @@ from yadelcommunications.settings import DOMAIN_NAME
 
 
 def  indexView(request):
+    get_key()
     context = {}
     try:
         context['latest_news'] = LatestNews.objects.all().order_by('-date_added')[0]
@@ -57,7 +58,7 @@ def  contactView(request):
         if feedback:
             messages.info(request, "Thank you for reaching out to us. We will respond to your request within 48 hours")
             subject = '[Yadelcommunications] - New message from ' + rp['sender']
-            notify  = EmailMessage(subject= subject, body = rp['message'], to =['editor@yadelcommunications.com'])
+            notify  = EmailMessage(subject= subject, body = rp['message'], to =['contact@yadelcommunications.com'])
             notify.content_subtype = 'html'
             notify.send()
         else:
@@ -106,7 +107,7 @@ def  signUpView(request):
                 
                 notify  = EmailMessage(subject= '[Yadel Communications] Confirm your registration', body = message, to =[sender['email']])
                 notify.content_subtype = 'html'
-                # notify.send()
+                notify.send(fail_silently = False)
                 context['user_is_created']  =    True
                 context['email']            =    sender['email']
                 print "user creation for %s successful" %(user)
@@ -156,6 +157,11 @@ def  loginView(request):
             if auth_user is not None:
                 user  =  auth_user
                 if user.is_active:
+                    try:
+                        if not user.useraccount.is_confirmed:
+                            return render(request, 'yadel/general/confirm-email.html', {})
+                    except:
+                        pass
                     login(request, user) # log user in
                     # #check login source page
                     if request.POST.get('next')  != "":

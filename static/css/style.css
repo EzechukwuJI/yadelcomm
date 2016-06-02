@@ -70,7 +70,7 @@ background-image: linear-gradient(to bottom, #1ACEA9 0%, #149E82 100%);
 }
 /* Header */
 #head {
-	background: #181015 url( ../images/bg_header.jpg) no-repeat;
+	background: #181015 url( ../images/bg_header.png) no-repeat;
 	background-size: cover;
 	min-height: 520px;
 	text-align: center;
